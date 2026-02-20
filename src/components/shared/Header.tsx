@@ -8,7 +8,7 @@ import IconLogoDark from "@/components/icons/IconLogoDark";
 function Header() {
   return (
     <header className="flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 text-white">
-      <div className="w-full h-full max-w-360 pr-4 lg:h-24 flex justify-between">
+      <div className="w-full h-full  pr-4 lg:h-24 flex justify-between">
         <div className="pl-4 md:pl-0 flex items-center gap-4">
           <LogoMobile className="w-6 h-6 md:hidden" />
           <div className="pl-4 min-h-full md:min-w-65 lg:min-w-75  md:pr-8 md:border-r md:border-grey-300 md:dark:border-black-300 items-center hidden md:flex">
