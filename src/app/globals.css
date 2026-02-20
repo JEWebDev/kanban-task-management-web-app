@@ -2,24 +2,26 @@
 @import "@fontsource-variable/plus-jakarta-sans";
 
 @theme inline {
-  --color-purple-500: hsl(242°, 48%, 58%);
-  --color-purple-300: hsl(243°, 100%, 82%);
+  --color-purple-500: hsl(242, 48%, 58%);
+  --color-purple-300: hsl(243, 100%, 82%);
 
-  --color-black: hsl(237°, 100%, 4%);
-  --color-black-600: hsl(235°, 16%, 15%);
-  --color-black-400: hsl(235°, 12%, 19%);
-  --color-black-300: hsl(236°, 11%, 27%);
+  --color-black: hsl(237, 100%, 4%);
+  --color-black-600: hsl(235, 16%, 15%);
+  --color-black-400: hsl(235, 12%, 19%);
+  --color-black-300: hsl(236, 11%, 27%);
 
-  --color-grey-400: hsl(216°, 15%, 57%);
-  --color-grey-300: hsl(221°, 69%, 94%);
-  --color-grey-200: hsl(220°, 69%, 97%);
+  --color-grey-400: hsl(216, 15%, 57%);
+  --color-grey-300: hsl(221, 69%, 94%);
+  --color-grey-200: hsl(220, 69%, 97%);
 
-  --color-red-500: hsl(0°, 78%, 63%);
-  --color-red-100: hsl(0°, 100%, 80%);
+  --color-red-500: hsl(0, 78%, 63%);
+  --color-red-100: hsl(0, 100%, 80%);
 }
 html,
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: #20212c;
+  height: 100dvh;
 }
 @utility heading-xl {
   font-weight: bold;
