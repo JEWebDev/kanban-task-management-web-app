@@ -21,8 +21,8 @@ function Sidebar() {
                   key={index}
                   className={`w-full py-3.75 md:pl-6 lg:pl-8 heading-m text-grey-400 flex items-center gap-4 ${
                     selectedBoard?.name === boards[index]?.name
-                      ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px]"
-                      : ""
+                      ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px] cursor-default"
+                      : "hover:cursor-pointer"
                   }
                   
                       `}
@@ -35,7 +35,7 @@ function Sidebar() {
             })}
           </ul>
         )}
-        <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500">
+        <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
           <IconBoard className="w-4 h-4 " />+ Create New Board
         </button>
       </div>

@@ -4,10 +4,14 @@ import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconChevronDown from "@/components/icons/IconChevronDown";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
-
-function Header() {
+interface HeaderProps {
+  className?: string;
+}
+function Header({ className }: HeaderProps) {
   return (
-    <header className="flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 text-white">
+    <header
+      className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 text-white ${className}`}
+    >
       <div className="w-full h-full  pr-4 lg:h-24 flex justify-between">
         <div className="pl-4 md:pl-0 flex items-center gap-4">
           <LogoMobile className="w-6 h-6 md:hidden" />
