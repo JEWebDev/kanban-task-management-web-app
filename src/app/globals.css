@@ -48,7 +48,7 @@ body {
   letter-spacing: 2.4px;
 }
 
-@utility body-l {
+@utility body-m {
   font-weight: medium;
   font-size: 0.8125rem;
   line-height: 23px;

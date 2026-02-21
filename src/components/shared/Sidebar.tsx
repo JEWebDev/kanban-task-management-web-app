@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
-import data from "@/mocks/data.json";
-import { Board, Kanban } from "@/types/data";
 import IconBoard from "../icons/IconBoard";
 import IconHideSidebar from "../icons/IconHideSidebar";
+import { useKanbanStore } from "@/stores/boards";
 function Sidebar() {
-  const { boards } = data as Kanban;
-  const [selectedBoard, setSelectedBoard] = useState<Board | null>(boards[0]);
+  const boards = useKanbanStore((state) => state.boards);
+  const activeBoardId = useKanbanStore((state) => state.activeBoardId);
+  const setActiveBoard = useKanbanStore((state) => state.setActiveBoard);
+
   return (
     <aside className="hidden py-8 pr-5 lg:pr-6 pt-8 min-w-65 lg:min-w-75 md:flex flex-col gap-13.5 justify-between md:max-w-65 lg:max-w-75 dark:bg-black-400 bg-white">
       <div id="board-list" className="w-full">
@@ -20,13 +20,13 @@ function Sidebar() {
                 <li
                   key={index}
                   className={`w-full py-3.75 md:pl-6 lg:pl-8 heading-m text-grey-400 flex items-center gap-4 ${
-                    selectedBoard?.name === boards[index]?.name
+                    activeBoardId === board.id
                       ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px] cursor-default"
                       : "hover:cursor-pointer"
                   }
                   
                       `}
-                  onClick={() => setSelectedBoard(boards[index])}
+                  onClick={() => setActiveBoard(board.id)}
                 >
                   <IconBoard className="w-4 h-4" />
                   {board.name}
