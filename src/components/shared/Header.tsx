@@ -4,10 +4,14 @@ import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconChevronDown from "@/components/icons/IconChevronDown";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
+import { useKanbanStore } from "@/stores/boards";
 interface HeaderProps {
   className?: string;
 }
 function Header({ className }: HeaderProps) {
+  const boards = useKanbanStore((state) => state.boards);
+  const activeBoardId = useKanbanStore((state) => state.activeBoardId);
+  const heading = boards.find((b) => b.id === activeBoardId)?.name;
   return (
     <header
       className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 text-white ${className}`}
@@ -19,7 +23,7 @@ function Header({ className }: HeaderProps) {
             <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
             <IconLogoLight className="w-38.25 h-6.25 md:block" />
           </div>
-          <h1 className="hidden md:block heading-xl">Platform Launch</h1>
+          <h1 className="hidden md:block heading-xl">{heading}</h1>
           <div className="heading-l md:heading-xl min-w-35.75 min-h-6.25 flex items-center md:hidden gap-2">
             Platform Launch
             <IconChevronDown className="w-3 h-3" />

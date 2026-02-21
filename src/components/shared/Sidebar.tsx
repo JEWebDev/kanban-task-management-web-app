@@ -2,6 +2,7 @@
 import IconBoard from "../icons/IconBoard";
 import IconHideSidebar from "../icons/IconHideSidebar";
 import { useKanbanStore } from "@/stores/boards";
+
 function Sidebar() {
   const boards = useKanbanStore((state) => state.boards);
   const activeBoardId = useKanbanStore((state) => state.activeBoardId);
