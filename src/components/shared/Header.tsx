@@ -1,17 +1,17 @@
+"use client";
 import IconAddTaskMobile from "@/components/icons/IconAddTaskMobile";
 import LogoMobile from "@/components/icons/IconLogoMobile";
 import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconChevronDown from "@/components/icons/IconChevronDown";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
-import { useKanbanStore } from "@/stores/boards";
+import useActiveBoard from "@/hooks/useActiveBoard";
 interface HeaderProps {
   className?: string;
 }
 function Header({ className }: HeaderProps) {
-  const boards = useKanbanStore((state) => state.boards);
-  const activeBoardId = useKanbanStore((state) => state.activeBoardId);
-  const heading = boards.find((b) => b.id === activeBoardId)?.name;
+  const activeBoard = useActiveBoard();
+  const heading = activeBoard?.name;
   return (
     <header
       className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 text-white ${className}`}

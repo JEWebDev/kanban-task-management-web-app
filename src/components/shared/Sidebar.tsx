@@ -1,12 +1,24 @@
 "use client";
+import Link from "next/link";
 import IconBoard from "../icons/IconBoard";
 import IconHideSidebar from "../icons/IconHideSidebar";
 import { useKanbanStore } from "@/stores/boards";
+import { useEffect, useState } from "react";
 
 function Sidebar() {
   const boards = useKanbanStore((state) => state.boards);
   const activeBoardId = useKanbanStore((state) => state.activeBoardId);
   const setActiveBoard = useKanbanStore((state) => state.setActiveBoard);
+
+  /* Hydration error patch, will dissapear when connected to the backend*/
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className="hidden md:block w-75" />;
+  /* Patch end */
 
   return (
     <aside className="hidden py-8 pr-5 lg:pr-6 pt-8 min-w-65 lg:min-w-75 md:flex flex-col gap-13.5 justify-between md:max-w-65 lg:max-w-75 dark:bg-black-400 bg-white">
@@ -16,10 +28,10 @@ function Sidebar() {
         </p>
         {boards.length > 0 && (
           <ul>
-            {boards.map((board, index) => {
+            {boards.map((board) => {
               return (
                 <li
-                  key={index}
+                  key={board.id}
                   className={`w-full py-3.75 md:pl-6 lg:pl-8 heading-m text-grey-400 flex items-center gap-4 ${
                     activeBoardId === board.id
                       ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px] cursor-default"
@@ -27,10 +39,15 @@ function Sidebar() {
                   }
                   
                       `}
-                  onClick={() => setActiveBoard(board.id)}
                 >
-                  <IconBoard className="w-4 h-4" />
-                  {board.name}
+                  <Link
+                    href={`/${board.id}`}
+                    className="flex items-center gap-4"
+                    onClick={() => setActiveBoard(board.id)}
+                  >
+                    <IconBoard className="w-4 h-4" />
+                    {board.name}
+                  </Link>
                 </li>
               );
             })}
