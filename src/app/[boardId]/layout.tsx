@@ -12,7 +12,7 @@ function BoardLayout() {
           <Column
             key={column.id}
             title={column.name}
-            dotColor={"#e2e2e2"}
+            dotColor={"#49C4E5"}
             taskCount={column.tasks.length}
           >
             {column.tasks.map((task) => {
@@ -27,6 +27,11 @@ function BoardLayout() {
           </Column>
         );
       })}
+      {board && board?.columns?.length > 0 && (
+        <div className="min-w-70 items-center justify-center rounded-md bg-linear-to-b from-0% from-[#2B2C37]/25 to-100% to-[#2B2C37]/50 hidden md:flex">
+          <p className="heading-xl dark:text-grey-400">+ New Column</p>
+        </div>
+      )}
     </>
   );
 }
