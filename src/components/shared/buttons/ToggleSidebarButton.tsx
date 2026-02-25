@@ -6,7 +6,7 @@ function ToggleSidebarButton() {
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
   return (
     <button
-      className={`bottom-8 left-0 p-5 bg-purple-500 rounded-tr-full rounded-br-full ${sidebarIsOpen ? "hidden" : "absolute"}`}
+      className={`bottom-8 left-0 p-5 bg-purple-500 rounded-tr-full rounded-br-full hover:cursor-pointer hover:bg-purple-300 ${sidebarIsOpen ? "hidden" : "absolute"}`}
       onClick={() => {
         setSidebarIsOpen(!sidebarIsOpen);
       }}

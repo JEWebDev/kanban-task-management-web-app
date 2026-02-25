@@ -1,9 +1,10 @@
 interface SwitchProps {
   onChange: () => void;
   isChecked: boolean;
+  ariaLabel: string;
 }
 
-function Switch({ onChange, isChecked }: SwitchProps) {
+function Switch({ onChange, isChecked, ariaLabel }: SwitchProps) {
   return (
     <div className="flex items-center">
       <label
@@ -15,12 +16,12 @@ function Switch({ onChange, isChecked }: SwitchProps) {
           className="peer sr-only"
           checked={isChecked}
           role="switch"
-          aria-label="Switch color theme"
+          aria-label={ariaLabel}
           id="switch"
           onChange={onChange}
         />
         <span className="w-3.5 h-3.5 bg-white rounded-full block peer-checked:translate-x-5 transition-transform"></span>
-        <span className="sr-only">{"change to light mode"}</span>
+        <span className="sr-only">{ariaLabel}</span>
       </label>
     </div>
   );

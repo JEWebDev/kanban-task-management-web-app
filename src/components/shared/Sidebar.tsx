@@ -47,10 +47,10 @@ function Sidebar() {
               return (
                 <li
                   key={board.id}
-                  className={`heading-m text-grey-400 ${
+                  className={`heading-m text-grey-400 rounded-tr-[100px] rounded-br-[100px] ${
                     activeBoardId === board.id
-                      ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px] cursor-default"
-                      : "hover:cursor-pointer"
+                      ? "bg-purple-500 text-white  cursor-default"
+                      : "hover:cursor-pointer hover:bg-grey-200 dark:hover:bg-white hover:text-purple-500"
                   }
                 
                 `}
@@ -73,7 +73,7 @@ function Sidebar() {
         </button>
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between max-w-62.75 px-16 py-4 ml-6 bg-grey-200 dark:bg-black-600 rounded-md">
           <IconSun className="w-4.5 h-4" />
           <Switch
@@ -86,7 +86,7 @@ function Sidebar() {
           <IconMoon className="w-4.5 h-4" />
         </div>
         <button
-          className="ml-6 py-3.5 lg:ml-8 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer"
+          className="pl-6 py-3.5 lg:pl-6 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer hover:bg-grey-200 rounded-tr-[100px] rounded-br-[100px] hover:text-purple-500 dark:hover:bg-white"
           onClick={() => {
             setSidebarIsOpen(!sidebarIsOpen);
             console.log(sidebarIsOpen);
