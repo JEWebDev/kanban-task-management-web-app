@@ -28,9 +28,9 @@ function BoardLayout() {
         );
       })}
       {board && board?.columns?.length > 0 && (
-        <div className="min-w-70 items-center justify-center rounded-md dark:bg-linear-to-b  dark:from-[#2B2C37]/25 dark:to-[#2B2C37]/50 bg-linear-to-b from-[#e9effa] to-[#e9effa]/50 hidden md:flex">
-          <p className="heading-xl text-grey-400">+ New Column</p>
-        </div>
+        <button className="min-w-70 items-center justify-center heading-xl text-grey-400 rounded-md dark:bg-linear-to-b  dark:from-[#2B2C37]/25 dark:to-[#2B2C37]/50 bg-linear-to-b from-[#e9effa] to-[#e9effa]/50 hidden md:flex hover:text-purple-500 hover:cursor-pointer">
+          <span className="">+ New Column</span>
+        </button>
       )}
     </>
   );
