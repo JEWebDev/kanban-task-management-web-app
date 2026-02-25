@@ -24,7 +24,10 @@ function Sidebar() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const patch = () => {
+      setMounted(true);
+    };
+    patch();
   }, []);
 
   if (!mounted) return <div className="hidden md:block w-75" />;
