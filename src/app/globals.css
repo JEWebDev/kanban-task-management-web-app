@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@fontsource-variable/plus-jakarta-sans";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-purple-500: hsl(242, 48%, 58%);
   --color-purple-300: hsl(243, 100%, 82%);

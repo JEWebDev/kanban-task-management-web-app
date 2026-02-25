@@ -5,6 +5,10 @@ import IconHideSidebar from "../icons/IconHideSidebar";
 import { useKanbanStore } from "@/stores/boards";
 import { useEffect, useState } from "react";
 import { useSidebarStore } from "@/stores/sidebar";
+import IconSun from "../icons/IconSun";
+import Switch from "./Switch";
+import IconMoon from "../icons/IconMoon";
+import { useTheme } from "next-themes";
 
 function Sidebar() {
   const boards = useKanbanStore((state) => state.boards);
@@ -13,6 +17,8 @@ function Sidebar() {
 
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
+
+  const { theme, setTheme } = useTheme();
 
   /* Hydration error patch, will dissapear when connected to the backend*/
   const [mounted, setMounted] = useState(false);
@@ -43,8 +49,8 @@ function Sidebar() {
                       ? "bg-purple-500 text-white rounded-tr-[100px] rounded-br-[100px] cursor-default"
                       : "hover:cursor-pointer"
                   }
-                  
-                      `}
+                
+                `}
                 >
                   <Link
                     href={`/${board.id}`}
@@ -65,8 +71,19 @@ function Sidebar() {
       </div>
 
       <div>
+        <div className="flex items-center justify-between max-w-62.75 px-16 py-4 ml-6 dark:bg-black-600 rounded-md">
+          <IconSun className="w-4.5 h-4" />
+          <Switch
+            onChange={() => {
+              setTheme(theme === "light" ? "dark" : "light");
+            }}
+            isChecked={theme === "dark"}
+            ariaLabel="Change color theme"
+          />
+          <IconMoon className="w-4.5 h-4" />
+        </div>
         <button
-          className="ml-6 lg:ml-8 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer"
+          className="ml-6 py-3.5 lg:ml-8 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer"
           onClick={() => {
             setSidebarIsOpen(!sidebarIsOpen);
             console.log(sidebarIsOpen);
