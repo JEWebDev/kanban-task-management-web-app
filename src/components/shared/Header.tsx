@@ -14,18 +14,18 @@ function Header({ className }: HeaderProps) {
   const heading = activeBoard?.name;
   return (
     <header
-      className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 border-b border-[#979797]/20 text-white ${className}`}
+      className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 border-b border-[#979797]/20 dark:text-white text-black ${className}`}
     >
       <div className="w-full h-full  pr-4 lg:h-24 flex justify-between">
         <div className="pl-4 md:pl-0 flex items-center gap-4">
           <LogoMobile className="w-6 h-6 md:hidden" />
-          <div className="pl-4 min-h-full md:max-w-65 lg:max-w-75  md:pr-8 md:border-r md:border-grey-300 md:dark:border-black-300 items-center hidden md:flex ">
+          <div className="pl-4 min-h-full md:min-w-65 lg:min-w-75  md:pr-8 md:border-r md:border-grey-300 md:dark:border-black-300 items-center hidden md:flex ">
             <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
-            <IconLogoLight className="w-38.25 h-6.25 md:block" />
+            <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
           </div>
           <h1 className="hidden md:block heading-xl">{heading}</h1>
           <div className="heading-l md:heading-xl min-w-35.75 min-h-6.25 flex items-center md:hidden gap-2">
-            Platform Launch
+            {heading}
             <IconChevronDown className="w-3 h-3" />
           </div>
         </div>
