@@ -32,10 +32,10 @@ function Sidebar() {
 
   return (
     <aside
-      className={`hidden py-8 pr-5 lg:pr-6 pt-8 min-w-65 lg:min-w-75 md:flex flex-col gap-13.5 justify-between ${!sidebarIsOpen ? "md:hidden lg:hidden" : "md:flex lg:flex"} dark:bg-black-400 bg-white`}
+      className={`hidden py-8 pr-5 lg:pr-6 pt-8 min-w-65 lg:min-w-75 md:flex flex-col gap-13.5 justify-between ${!sidebarIsOpen ? "md:hidden lg:hidden" : "md:flex lg:flex"} dark:bg-black-400 bg-white border-r border-[#979797]/20`}
     >
       <div id="board-list" className="w-full">
-        <p className="boards-count pl-8 pb-5 dark:text-grey-400 heading-s uppercase">
+        <p className="boards-count pl-8 pb-5 text-grey-400 heading-s uppercase">
           All boards ({boards.length})
         </p>
         {boards.length > 0 && (
@@ -71,7 +71,7 @@ function Sidebar() {
       </div>
 
       <div>
-        <div className="flex items-center justify-between max-w-62.75 px-16 py-4 ml-6 dark:bg-black-600 rounded-md">
+        <div className="flex items-center justify-between max-w-62.75 px-16 py-4 ml-6 bg-grey-200 dark:bg-black-600 rounded-md">
           <IconSun className="w-4.5 h-4" />
           <Switch
             onChange={() => {

@@ -21,7 +21,7 @@ export default function RootLayout({
           >
             <Header className="col-span-2" />
             <Sidebar />
-            <main className="w-full h-full flex gap-6 overflow-x-auto overflow-y-hidden bg-light-grey dark:bg-very-dark-grey p-6">
+            <main className="w-full h-full flex gap-6 overflow-x-auto overflow-y-hidden bg-grey-200 dark:bg-black-600 p-6">
               <ToggleSidebarButton />
               {children}
             </main>
