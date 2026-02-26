@@ -4,10 +4,10 @@ import TaskCard from "@/components/shared/TaskCard";
 import useActiveBoard from "@/hooks/useActiveBoard";
 
 function BoardLayout() {
-  const board = useActiveBoard();
+  const { activeBoard } = useActiveBoard();
   return (
     <>
-      {board?.columns.map((column) => {
+      {activeBoard?.columns.map((column) => {
         return (
           <Column
             key={column.id}
@@ -27,7 +27,7 @@ function BoardLayout() {
           </Column>
         );
       })}
-      {board && board?.columns?.length > 0 && (
+      {activeBoard && activeBoard?.columns?.length > 0 && (
         <button className="min-w-70 items-center justify-center heading-xl text-grey-400 rounded-md dark:bg-linear-to-b  dark:from-[#2B2C37]/25 dark:to-[#2B2C37]/50 bg-linear-to-b from-[#e9effa] to-[#e9effa]/50 hidden md:flex hover:text-purple-500 hover:cursor-pointer">
           <span className="">+ New Column</span>
         </button>

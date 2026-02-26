@@ -1,24 +1,16 @@
 "use client";
-import Link from "next/link";
 import IconBoard from "../icons/IconBoard";
 import IconHideSidebar from "../icons/IconHideSidebar";
-import { useKanbanStore } from "@/stores/boards";
 import { useEffect, useState } from "react";
 import { useSidebarStore } from "@/stores/sidebar";
-import IconSun from "../icons/IconSun";
-import Switch from "./Switch";
-import IconMoon from "../icons/IconMoon";
-import { useTheme } from "next-themes";
+import useActiveBoard from "@/hooks/useActiveBoard";
+import BoardsList from "./BoardsList";
 
 function Sidebar() {
-  const boards = useKanbanStore((state) => state.boards);
-  const activeBoardId = useKanbanStore((state) => state.activeBoardId);
-  const setActiveBoard = useKanbanStore((state) => state.setActiveBoard);
+  const { boards } = useActiveBoard();
 
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
-
-  const { theme, setTheme } = useTheme();
 
   /* Hydration error patch, will dissapear when connected to the backend*/
   const [mounted, setMounted] = useState(false);
@@ -41,50 +33,13 @@ function Sidebar() {
         <p className="boards-count pl-8 pb-5 text-grey-400 heading-s uppercase">
           All boards ({boards.length})
         </p>
-        {boards.length > 0 && (
-          <ul>
-            {boards.map((board) => {
-              return (
-                <li
-                  key={board.id}
-                  className={`heading-m text-grey-400 rounded-tr-[100px] rounded-br-[100px] ${
-                    activeBoardId === board.id
-                      ? "bg-purple-500 text-white  cursor-default"
-                      : "hover:cursor-pointer hover:bg-grey-200 dark:hover:bg-white hover:text-purple-500"
-                  }
-                
-                `}
-                >
-                  <Link
-                    href={`/${board.id}`}
-                    className="py-3.75 md:pl-6 lg:pl-8 flex items-center gap-4 w-full h-full"
-                    onClick={() => setActiveBoard(board.id)}
-                  >
-                    <IconBoard className="w-4 h-4" />
-                    {board.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        {boards.length > 0 && <BoardsList />}
         <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
           <IconBoard className="w-4 h-4 " />+ Create New Board
         </button>
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-6 justify-center py-4 ml-6 bg-grey-200 dark:bg-black-600 rounded-md">
-          <IconSun className="w-4.5 h-4" />
-          <Switch
-            onChange={() => {
-              setTheme(theme === "light" ? "dark" : "light");
-            }}
-            isChecked={theme === "dark"}
-            ariaLabel="Change color theme"
-          />
-          <IconMoon className="w-4.5 h-4" />
-        </div>
         <button
           className="pl-6 py-3.5 lg:pl-6 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer hover:bg-grey-200 rounded-tr-[100px] rounded-br-[100px] hover:text-purple-500 dark:hover:bg-white"
           onClick={() => {

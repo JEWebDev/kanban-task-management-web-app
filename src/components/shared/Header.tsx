@@ -2,16 +2,15 @@
 import IconAddTaskMobile from "@/components/icons/IconAddTaskMobile";
 import LogoMobile from "@/components/icons/IconLogoMobile";
 import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
-import IconChevronDown from "@/components/icons/IconChevronDown";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
 import useActiveBoard from "@/hooks/useActiveBoard";
-import Dropodown from "./Dropdown";
+import NavDropodown from "./NavDropdown";
 interface HeaderProps {
   className?: string;
 }
 function Header({ className }: HeaderProps) {
-  const activeBoard = useActiveBoard();
+  const { activeBoard } = useActiveBoard();
   const heading = activeBoard?.name;
   return (
     <header
@@ -27,7 +26,7 @@ function Header({ className }: HeaderProps) {
           <h1 className="hidden md:block heading-xl">
             {activeBoard ? heading : "Select a board"}
           </h1>
-          <Dropodown />
+          <NavDropodown />
         </div>
 
         <div className="flex items-center">
