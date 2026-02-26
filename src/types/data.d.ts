@@ -1,42 +1,31 @@
-export interface SubtaskJSON {
+export interface SubtaskBase {
   title: string;
   isCompleted: boolean;
 }
 
-export interface TaskJSON {
+export interface TaskBase {
   title: string;
   description: string;
-  status: Status;
-  subtasks: SubtaskJSON[];
+  status: string;
 }
 
-export interface ColumnJSON {
-  name: string;
-  tasks: TaskJSON[];
-}
-
-export interface BoardJSON {
-  name: string;
-  columns: ColumnJSON[];
-}
-
-// Normalization types
-
-export interface Subtask extends SubtaskJSON {
+export interface Subtask extends SubtaskBase {
   id: string;
 }
 
-export interface Task extends Omit<TaskJSON, "subtasks"> {
+export interface Task extends TaskBase {
   id: string;
   subtasks: Subtask[];
 }
 
-export interface Column extends Omit<ColumnJSON, "tasks"> {
+export interface Column {
   id: string;
+  name: string;
   tasks: Task[];
 }
 
-export interface Board extends Omit<BoardJSON, "columns"> {
+export interface Board {
   id: string;
+  name: string;
   columns: Column[];
 }
