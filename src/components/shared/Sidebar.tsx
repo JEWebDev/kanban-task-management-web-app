@@ -74,7 +74,7 @@ function Sidebar() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between max-w-62.75 px-16 py-4 ml-6 bg-grey-200 dark:bg-black-600 rounded-md">
+        <div className="flex items-center gap-6 justify-center py-4 ml-6 bg-grey-200 dark:bg-black-600 rounded-md">
           <IconSun className="w-4.5 h-4" />
           <Switch
             onChange={() => {

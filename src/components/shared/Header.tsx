@@ -6,6 +6,7 @@ import IconChevronDown from "@/components/icons/IconChevronDown";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
 import useActiveBoard from "@/hooks/useActiveBoard";
+import Dropodown from "./Dropdown";
 interface HeaderProps {
   className?: string;
 }
@@ -23,11 +24,10 @@ function Header({ className }: HeaderProps) {
             <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
             <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
           </div>
-          <h1 className="hidden md:block heading-xl">{heading}</h1>
-          <div className="heading-l md:heading-xl min-w-35.75 min-h-6.25 flex items-center md:hidden gap-2">
-            {heading}
-            <IconChevronDown className="w-3 h-3" />
-          </div>
+          <h1 className="hidden md:block heading-xl">
+            {activeBoard ? heading : "Select a board"}
+          </h1>
+          <Dropodown />
         </div>
 
         <div className="flex items-center">
