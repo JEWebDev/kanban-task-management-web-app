@@ -12,6 +12,7 @@ function ThemeSwitch() {
       <Switch
         onChange={() => {
           setTheme(theme === "light" ? "dark" : "light");
+          console.log(theme);
         }}
         isChecked={theme === "dark"}
         ariaLabel="Change color theme"
