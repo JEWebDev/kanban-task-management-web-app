@@ -4,10 +4,11 @@ import IconHideSidebar from "../icons/IconHideSidebar";
 import { useEffect, useState } from "react";
 import { useSidebarStore } from "@/stores/sidebar";
 import useActiveBoard from "@/hooks/useActiveBoard";
-import BoardsList from "./BoardsList";
+import BoardItem from "./BoardItem";
+import ThemeSwitch from "./ThemeSwitch";
 
 function Sidebar() {
-  const { boards } = useActiveBoard();
+  const { boards, setActiveBoard, activeBoardId } = useActiveBoard();
 
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
@@ -33,13 +34,28 @@ function Sidebar() {
         <p className="boards-count pl-8 pb-5 text-grey-400 heading-s uppercase">
           All boards ({boards.length})
         </p>
-        {boards.length > 0 && <BoardsList />}
+        {boards.length > 0 && (
+          <ul className="flex flex-col">
+            {boards.map((board) => {
+              console.log(board.id + "board id");
+              return (
+                <BoardItem
+                  board={board}
+                  active={board.id === activeBoardId}
+                  onClick={() => setActiveBoard(board.id)}
+                  key={board.id}
+                />
+              );
+            })}
+          </ul>
+        )}
         <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
           <IconBoard className="w-4 h-4 " />+ Create New Board
         </button>
       </div>
 
       <div className="flex flex-col gap-2">
+        <ThemeSwitch />
         <button
           className="pl-6 py-3.5 lg:pl-6 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer hover:bg-grey-200 rounded-tr-[100px] rounded-br-[100px] hover:text-purple-500 dark:hover:bg-white"
           onClick={() => {

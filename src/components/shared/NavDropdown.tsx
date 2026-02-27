@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import IconChevronDown from "../icons/IconChevronDown";
 import IconBoard from "../icons/IconBoard";
 import ThemeSwitch from "./ThemeSwitch";
-import BoardsList from "./BoardsList";
 import useActiveBoard from "@/hooks/useActiveBoard";
+import BoardItem from "./BoardItem";
 
 function NavDropodown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { boards, activeBoard } = useActiveBoard();
+  const { boards, activeBoard, activeBoardId, setActiveBoard } =
+    useActiveBoard();
 
   const dropdownref = useRef<HTMLDivElement>(null);
 
@@ -43,12 +44,25 @@ function NavDropodown() {
         </button>
 
         {isOpen && (
-          <div className="py-4 pr-4 absolute bg-white dark:bg-black-600 z-30 rounded-lg max-w-66.25 min-w-66.25 top-[56] flex flex-col gap-4">
+          <div className="py-4 pr-4 absolute bg-white dark:bg-black-400 z-30 rounded-lg max-w-66.25 min-w-66.25 top-[56] flex flex-col gap-4">
             <p className="pl-4 heading-s uppercase text-grey-400">
               all boards ({boards.length})
             </p>
             <div>
-              <BoardsList />
+              <ul className="flex flex-col">
+                {boards.length > 0 &&
+                  boards.map((board) => (
+                    <BoardItem
+                      key={board.id}
+                      board={board}
+                      active={activeBoardId === board.id}
+                      onClick={() => {
+                        setActiveBoard(board.id);
+                        setIsOpen(false);
+                      }}
+                    />
+                  ))}
+              </ul>
               <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
                 <IconBoard className="w-4 h-4 " />+ Create New Board
               </button>
