@@ -3,8 +3,20 @@ name: Unit Tests
 on:
   push:
     branches: [main, develop]
+    paths:
+      - "src/**"
+      - "package.json"
+      - "vitest.config.ts"
+      - "tsconfig.json"
   pull_request:
     branches: [main]
+    paths:
+      - "src/**"
+      - "package.json"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -18,10 +30,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm" # Cambia a 'pnpm' o 'yarn' si los usas
+          cache: "npm"
 
       - name: Instalar dependencias
         run: npm install
 
       - name: Ejecutar tests
-        run: npm run test
+        run: npm run test -- --reporter=verbose
