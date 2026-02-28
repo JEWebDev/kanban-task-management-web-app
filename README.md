@@ -54,7 +54,7 @@ Users should be able to:
 
 ### Core Tech Stack
 
-- **Next.js & Typescript**: Chosen for excelente SEO and seamless user experience.
+- **Next.js**: Chosen for excelente SEO and seamless user experience.
 - **Typescript**: Chosen for robust type-safety.
 - **Tailwind CSS**: Used for highly maintainable and responsive UI design.
 
