@@ -9,7 +9,7 @@ on:
       - "vitest.config.ts"
       - "tsconfig.json"
   pull_request:
-    branches: [main]
+    branches: [main, develop]
     paths:
       - "src/**"
       - "package.json"
@@ -18,22 +18,25 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Instalar Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
 
-      - name: Instalar dependencias
-        run: npm install
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Ejecutar tests
+      - name: Run tests
         run: npm run test -- --reporter=verbose
