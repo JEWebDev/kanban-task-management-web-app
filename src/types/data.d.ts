@@ -14,18 +14,18 @@ export interface Subtask extends SubtaskBase {
 }
 
 export interface Task extends TaskBase {
-  id: string;
+  task_id: string;
   subtasks: Subtask[];
 }
 
 export interface Column {
-  id: string;
+  column_id: string;
   name: string;
   tasks: Task[];
 }
 
 export interface Board {
-  id: string;
+  board_id: string;
   name: string;
-  columns: Column[];
+  columns?: Column[];
 }

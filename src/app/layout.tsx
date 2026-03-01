@@ -1,32 +1,25 @@
-"use client";
-import ToggleSidebarButton from "@/components/shared/buttons/ToggleSidebarButton";
+import { getAllBoards } from "@/utils/queries/boards";
 import "./globals.css";
-import Header from "@/components/shared/Header";
-import Sidebar from "@/components/shared/Sidebar";
-import { useSidebarStore } from "@/stores/sidebar";
-import { ThemeProvider } from "next-themes";
+import MainContainer from "@/components/shared/MainContainer";
+import Providers from "@/components/providers";
 
-export default function RootLayout({
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
+  const initialBoards = await getAllBoards();
+  console.log("Initial boards: ", initialBoards);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={``}>
-        <ThemeProvider attribute={"class"} enableSystem>
-          <div
-            className={`grid grid-cols-[1fr] grid-rows-[auto_1fr] ${sidebarIsOpen ? "md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]" : "md:grid-cols-[1fr]"} md:grid-rows-[auto_1fr] h-screen`}
-          >
-            <Header className="col-span-2" />
-            <Sidebar />
-            <main className="w-full h-full flex gap-6 overflow-x-auto overflow-y-hidden bg-grey-200 dark:bg-black-600 p-6">
-              <ToggleSidebarButton />
-              {children}
-            </main>
-          </div>
-        </ThemeProvider>
+        <Providers>
+          <MainContainer initialBoards={initialBoards}>
+            {children}
+          </MainContainer>
+        </Providers>
       </body>
     </html>
   );

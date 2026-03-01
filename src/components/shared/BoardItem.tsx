@@ -3,7 +3,7 @@ import IconBoard from "../icons/IconBoard";
 import { Board } from "@/types/data";
 interface BoardItemProps {
   board: Board;
-  onClick: () => void;
+  onClick?: () => void;
   active: boolean;
 }
 
@@ -19,7 +19,7 @@ function BoardItem({ board, active, onClick }: BoardItemProps) {
         `}
     >
       <Link
-        href={`/${board.id}`}
+        href={`/${board.board_id}`}
         className="py-3.75 pl-6 flex items-center gap-4 w-full h-full"
         onClick={onClick}
       >

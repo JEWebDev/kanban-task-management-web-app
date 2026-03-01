@@ -1,30 +1,21 @@
 "use client";
 import IconBoard from "../icons/IconBoard";
 import IconHideSidebar from "../icons/IconHideSidebar";
-import { useEffect, useState } from "react";
 import { useSidebarStore } from "@/stores/sidebar";
-import useActiveBoard from "@/hooks/useActiveBoard";
 import BoardItem from "./BoardItem";
 import ThemeSwitch from "./ThemeSwitch";
+import { Board } from "@/types/data";
+import { useParams } from "next/navigation";
+import { useBoards } from "@/hooks/useBoards";
 
-function Sidebar() {
-  const { boards, setActiveBoard, activeBoardId } = useActiveBoard();
-
+interface SidebarProps {
+  initialBoards: Board[];
+}
+function Sidebar({ initialBoards }: SidebarProps) {
+  const { boardId } = useParams();
+  const { data: boards } = useBoards(initialBoards);
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
-
-  /* Hydration error patch, will dissapear when connected to the backend*/
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const patch = () => {
-      setMounted(true);
-    };
-    patch();
-  }, []);
-
-  if (!mounted) return <div className="hidden md:block w-75" />;
-  /* Patch end */
 
   return (
     <aside
@@ -32,18 +23,17 @@ function Sidebar() {
     >
       <div id="board-list" className="w-full">
         <p className="boards-count pl-8 pb-5 text-grey-400 heading-s uppercase">
-          All boards ({boards.length})
+          All boards ({boards?.length})
         </p>
-        {boards.length > 0 && (
+        {boards && (
           <ul className="flex flex-col">
-            {boards.map((board) => {
-              console.log(board.id + "board id");
+            {boards.map((board, index) => {
+              console.log(board.board_id);
               return (
                 <BoardItem
+                  key={index}
                   board={board}
-                  active={board.id === activeBoardId}
-                  onClick={() => setActiveBoard(board.id)}
-                  key={board.id}
+                  active={board.board_id === boardId}
                 />
               );
             })}
@@ -60,7 +50,6 @@ function Sidebar() {
           className="pl-6 py-3.5 lg:pl-6 text-grey-400 heading-m flex items-center gap-2.5 hover:cursor-pointer hover:bg-grey-200 rounded-tr-[100px] rounded-br-[100px] hover:text-purple-500 dark:hover:bg-white"
           onClick={() => {
             setSidebarIsOpen(!sidebarIsOpen);
-            console.log(sidebarIsOpen);
           }}
         >
           <IconHideSidebar className="w-4.5 h-4" />

@@ -4,14 +4,18 @@ import LogoMobile from "@/components/icons/IconLogoMobile";
 import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
-import useActiveBoard from "@/hooks/useActiveBoard";
+import { useParams } from "next/navigation";
+import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
+import { Board } from "@/types/data";
+
 interface HeaderProps {
   className?: string;
+  initialBoards: Board[];
 }
-function Header({ className }: HeaderProps) {
-  const { activeBoard } = useActiveBoard();
-  const heading = activeBoard?.name;
+function Header({ className, initialBoards }: HeaderProps) {
+  const { boardId } = useParams();
+  const { data: board } = useBoard(boardId as string);
   return (
     <header
       className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 border-b border-[#979797]/20 dark:text-white text-black ${className}`}
@@ -23,19 +27,12 @@ function Header({ className }: HeaderProps) {
             <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
             <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
           </div>
-          <h1 className="hidden md:block heading-xl">
-            {activeBoard ? heading : "Select a board"}
-          </h1>
-          <NavDropodown />
+          <h1 className="hidden md:block heading-xl">{board?.name ?? ""}</h1>
+          <NavDropodown initialBoards={initialBoards} />
         </div>
 
         <div className="flex items-center">
-          <button
-            className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
-            disabled={
-              activeBoard === undefined || activeBoard.columns.length === 0
-            }
-          >
+          <button className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed">
             <IconAddTaskMobile className="md:hidden w-3 h-3" />
             <span className="hidden md:block text-white heading-m">
               + Add New Task

@@ -4,15 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import IconChevronDown from "../icons/IconChevronDown";
 import IconBoard from "../icons/IconBoard";
 import ThemeSwitch from "./ThemeSwitch";
-import useActiveBoard from "@/hooks/useActiveBoard";
 import BoardItem from "./BoardItem";
+import { useParams } from "next/navigation";
+import { Board } from "@/types/data";
+import { useBoard, useBoards } from "@/hooks/useBoards";
 
-function NavDropodown() {
+function NavDropodown({ initialBoards }: { initialBoards: Board[] }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { boards, activeBoard, activeBoardId, setActiveBoard } =
-    useActiveBoard();
-
   const dropdownref = useRef<HTMLDivElement>(null);
+
+  const { boardId } = useParams();
+
+  const { data: boards = [] } = useBoards(initialBoards);
+  const { data: currentBoard } = useBoard(boardId as string);
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -39,7 +43,7 @@ function NavDropodown() {
             setIsOpen(!isOpen);
           }}
         >
-          <span>{activeBoard?.name ?? "Select a board"}</span>{" "}
+          <span>{currentBoard?.name ?? "Select a board"}</span>{" "}
           <IconChevronDown className="w-3 h-3" />
         </button>
 
@@ -53,11 +57,10 @@ function NavDropodown() {
                 {boards.length > 0 &&
                   boards.map((board) => (
                     <BoardItem
-                      key={board.id}
+                      key={board.board_id}
                       board={board}
-                      active={activeBoardId === board.id}
+                      active={currentBoard?.board_id === board.board_id}
                       onClick={() => {
-                        setActiveBoard(board.id);
                         setIsOpen(false);
                       }}
                     />
