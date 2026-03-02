@@ -7,16 +7,14 @@ import IconLogoDark from "@/components/icons/IconLogoDark";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
-import { Board } from "@/types/data";
 import CreateTaskModal from "../modals/CreateTaskModal";
 import { useState } from "react";
 
 interface HeaderProps {
   className?: string;
-  initialBoards: Board[];
 }
 
-function Header({ className, initialBoards }: HeaderProps) {
+function Header({ className }: HeaderProps) {
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
@@ -33,7 +31,7 @@ function Header({ className, initialBoards }: HeaderProps) {
               <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
             </div>
             <h1 className="hidden md:block heading-xl">{board?.name ?? ""}</h1>
-            <NavDropodown initialBoards={initialBoards} />
+            <NavDropodown />
           </div>
 
           <div className="flex items-center">

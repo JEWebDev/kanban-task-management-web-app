@@ -2,10 +2,8 @@
 import Column from "@/components/shared/Column";
 import TaskCard from "@/components/shared/TaskCard";
 import { useBoard } from "@/hooks/useBoards";
-import { useParams } from "next/navigation";
 
-function BoardLayout() {
-  const { boardId } = useParams();
+function BoardLayout({ boardId }: { boardId: string }) {
   const { data: board } = useBoard(boardId as string);
   return (
     <>

@@ -6,16 +6,15 @@ import IconBoard from "../icons/IconBoard";
 import ThemeSwitch from "./ThemeSwitch";
 import BoardItem from "./BoardItem";
 import { useParams } from "next/navigation";
-import { Board } from "@/types/data";
 import { useBoard, useBoards } from "@/hooks/useBoards";
 
-function NavDropodown({ initialBoards }: { initialBoards: Board[] }) {
+function NavDropodown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownref = useRef<HTMLDivElement>(null);
 
   const { boardId } = useParams();
 
-  const { data: boards = [] } = useBoards(initialBoards);
+  const { data: boards = [] } = useBoards();
   const { data: currentBoard } = useBoard(boardId as string);
 
   useEffect(() => {

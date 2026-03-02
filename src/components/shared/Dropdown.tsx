@@ -16,7 +16,7 @@ function Dropdown() {
       </button>
 
       {isOpen && (
-        <div className="py-4 px-4 absolute bg-white dark:bg-black-400 border z-[100] border-[#828fa3]/25 rounded-sm flex flex-col gap-4 w-full mt-2 shadow-md">
+        <div className="py-4 px-4 absolute bg-white dark:bg-black-400 border z-100 border-[#828fa3]/25 rounded-sm flex flex-col gap-4 w-full mt-2 shadow-md">
           <ul className="flex flex-col body-l">
             <li>Todo</li>
             <li>Doing</li>

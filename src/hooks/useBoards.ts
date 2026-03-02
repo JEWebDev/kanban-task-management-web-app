@@ -1,12 +1,10 @@
-import { Board } from "@/types/data";
 import { getAllBoards, getBoardById } from "@/utils/queries/boards";
 import { useQuery } from "@tanstack/react-query";
 
-export function useBoards(initialData?: Board[]) {
+export function useBoards() {
   return useQuery({
     queryKey: ["boards"],
     queryFn: () => getAllBoards(),
-    initialData: initialData,
   });
 }
 

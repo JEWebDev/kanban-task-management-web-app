@@ -4,16 +4,12 @@ import IconHideSidebar from "../icons/IconHideSidebar";
 import { useSidebarStore } from "@/stores/sidebar";
 import BoardItem from "./BoardItem";
 import ThemeSwitch from "./ThemeSwitch";
-import { Board } from "@/types/data";
 import { useParams } from "next/navigation";
 import { useBoards } from "@/hooks/useBoards";
 
-interface SidebarProps {
-  initialBoards: Board[];
-}
-function Sidebar({ initialBoards }: SidebarProps) {
+function Sidebar() {
   const { boardId } = useParams();
-  const { data: boards } = useBoards(initialBoards);
+  const { data: boards } = useBoards();
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
 
