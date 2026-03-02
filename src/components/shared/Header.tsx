@@ -8,42 +8,58 @@ import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
 import { Board } from "@/types/data";
+import CreateTaskModal from "../modals/CreateTaskModal";
+import { useState } from "react";
 
 interface HeaderProps {
   className?: string;
   initialBoards: Board[];
 }
+
 function Header({ className, initialBoards }: HeaderProps) {
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   return (
-    <header
-      className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 border-b border-[#979797]/20 dark:text-white text-black ${className}`}
-    >
-      <div className="w-full h-full  pr-4 lg:h-24 flex justify-between">
-        <div className="pl-4 md:pl-0 flex items-center gap-4">
-          <LogoMobile className="w-6 h-6 md:hidden" />
-          <div className="pl-4 min-h-full md:min-w-65 lg:min-w-75  md:pr-8 md:border-r md:border-grey-300 md:dark:border-black-300 items-center hidden md:flex ">
-            <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
-            <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
+    <>
+      <header
+        className={`flex justify-center h-16 md:h-20 lg:h-24 bg-white dark:bg-black-400 border-b border-[#979797]/20 dark:text-white text-black ${className}`}
+      >
+        <div className="w-full h-full  pr-4 lg:h-24 flex justify-between">
+          <div className="pl-4 md:pl-0 flex items-center gap-4">
+            <LogoMobile className="w-6 h-6 md:hidden" />
+            <div className="pl-4 min-h-full md:min-w-65 lg:min-w-75  md:pr-8 md:border-r md:border-grey-300 md:dark:border-black-300 items-center hidden md:flex ">
+              <IconLogoDark className="w-38.25 h-6.25 dark:hidden" />
+              <IconLogoLight className="w-38.25 h-6.25 hidden dark:block" />
+            </div>
+            <h1 className="hidden md:block heading-xl">{board?.name ?? ""}</h1>
+            <NavDropodown initialBoards={initialBoards} />
           </div>
-          <h1 className="hidden md:block heading-xl">{board?.name ?? ""}</h1>
-          <NavDropodown initialBoards={initialBoards} />
-        </div>
 
-        <div className="flex items-center">
-          <button className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed">
-            <IconAddTaskMobile className="md:hidden w-3 h-3" />
-            <span className="hidden md:block text-white heading-m">
-              + Add New Task
-            </span>
-          </button>
-          <button className="w-4 flex justify-end hover:cursor-pointer">
-            <IconVerticalElipsis className="w-1 h-4 md:h-5" />
-          </button>
+          <div className="flex items-center">
+            <button
+              className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
+              onClick={() => setIsTaskModalOpen(true)}
+            >
+              <IconAddTaskMobile className="md:hidden w-3 h-3" />
+              <span className="hidden md:block text-white heading-m">
+                + Add New Task
+              </span>
+            </button>
+            <button className="w-4 flex justify-end hover:cursor-pointer">
+              <IconVerticalElipsis className="w-1 h-4 md:h-5" />
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {isTaskModalOpen && (
+        <CreateTaskModal
+          isOpen={isTaskModalOpen}
+          onClose={() => setIsTaskModalOpen(false)}
+        />
+      )}
+    </>
   );
 }
 export default Header;
