@@ -1,12 +1,12 @@
 import { getAllBoards } from "@/utils/queries/boards";
 import "./globals.css";
 import MainContainer from "@/components/shared/MainContainer";
-import Providers from "@/components/providers";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import Providers from "@/components/providers";
 
 export default async function RootLayout({
   children,

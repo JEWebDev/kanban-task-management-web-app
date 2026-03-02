@@ -20,6 +20,7 @@ function BoardItem({ board, active, onClick }: BoardItemProps) {
     >
       <Link
         href={`/${board.board_id}`}
+        prefetch={true}
         className="py-3.75 pl-6 flex items-center gap-4 w-full h-full"
         onClick={onClick}
       >
