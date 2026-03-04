@@ -6,7 +6,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import Providers from "@/components/providers";
+import Providers from "@/components/Providers";
 
 export default async function RootLayout({
   children,
