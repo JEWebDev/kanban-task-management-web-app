@@ -79,8 +79,10 @@ export const useDropdown = (columns: Column[]) => {
     setActiveOption,
     handleKeyDown,
     handleSelection,
-    containerRef,
-    buttonRef,
-    listRef,
+    refs: {
+      containerRef: containerRef,
+      buttonRef: buttonRef,
+      listRef: listRef,
+    },
   };
 };

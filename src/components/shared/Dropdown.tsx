@@ -12,18 +12,20 @@ function Dropdown({ columns, name }: DropdownProps) {
     setIsOpen,
     handleSelection,
     handleKeyDown,
-    containerRef,
-    buttonRef,
-    listRef,
+    refs,
   } = useDropdown(columns);
 
   return (
-    <div className="relative" ref={containerRef} onKeyDown={handleKeyDown}>
+    <div
+      className="relative"
+      ref={refs?.containerRef}
+      onKeyDown={handleKeyDown}
+    >
       <input type="hidden" name={name} value={selectedOption} readOnly />
       <label className="body-m text-grey-400">
         Status
         <button
-          ref={buttonRef}
+          ref={refs?.buttonRef}
           type="button"
           id="dropdown-button"
           className="w-full body-l px-4 py-2 flex items-center justify-between border border-[#828fa3]/25 rounded-sm cursor-pointer"
@@ -52,7 +54,7 @@ function Dropdown({ columns, name }: DropdownProps) {
             role="listbox"
             tabIndex={-1}
             aria-activedescendant={selectedOption}
-            ref={listRef}
+            ref={refs?.listRef}
           >
             {columns.map((column) => {
               return (
