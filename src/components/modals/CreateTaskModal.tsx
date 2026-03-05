@@ -87,6 +87,7 @@ function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
               tasks: [],
             },
           ]}
+          name={"column-id"}
         />
         <PrimaryButton type={"submit"} onClick={() => {}}>
           Create Task
