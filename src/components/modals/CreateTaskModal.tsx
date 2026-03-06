@@ -3,27 +3,29 @@ import PrimaryButton from "../shared/buttons/PrimaryButton";
 import TextInput from "../shared/inputs/TextInput";
 import Dropdown from "../shared/Dropdown";
 import SubtasksForm from "../forms/SubtasksForm";
+import { useRouter } from "next/navigation";
 
-interface CreateTaskModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
+function CreateTaskModal() {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (isOpen) {
-      dialog.showModal();
-    } else {
-      dialog.close();
-    }
-  }, [isOpen]);
+  const router = useRouter();
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
   };
+
+  const closeDialog = () => {
+    if (window.location.search.includes("modal=")) {
+      router.back();
+    }
+  };
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+  }, []);
+
   return (
     <dialog
       className="mx-auto my-auto p-6 md:p-8 max-h-168.5 md:max-h-176 bg-white dark:bg-black-600 backdrop:bg-black/50 rounded-sm md:rounded-md min-w-85.75 md:min-w-120 text-black dark:text-white"
@@ -37,11 +39,14 @@ function CreateTaskModal({ isOpen, onClose }: CreateTaskModalProps) {
             e.clientY < rect.top ||
             e.clientY > rect.bottom)
         ) {
-          onClose();
+          closeDialog();
         }
       }}
-      onClose={onClose}
       ref={dialogRef}
+      onCancel={(e) => {
+        e.preventDefault();
+        closeDialog();
+      }}
     >
       <h2 className="heading-l dark:text-white mb-6">Add New Task</h2>
 

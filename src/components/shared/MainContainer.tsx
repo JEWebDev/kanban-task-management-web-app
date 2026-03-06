@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import ToggleSidebarButton from "./buttons/ToggleSidebarButton";
+import ModalManager from "../ModalManager";
 
 function MainContainer({ children }: { children: React.ReactNode }) {
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
@@ -18,6 +19,7 @@ function MainContainer({ children }: { children: React.ReactNode }) {
           <ToggleSidebarButton />
           {children}
         </main>
+        <ModalManager />
       </ThemeProvider>
     </div>
   );

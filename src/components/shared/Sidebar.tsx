@@ -24,7 +24,6 @@ function Sidebar() {
         {boards && (
           <ul className="flex flex-col">
             {boards.map((board, index) => {
-              console.log(board.board_id);
               return (
                 <BoardItem
                   key={index}
