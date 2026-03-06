@@ -21,12 +21,18 @@ function Dropdown({ columns, name }: DropdownProps) {
       ref={refs?.containerRef}
       onKeyDown={handleKeyDown}
     >
-      <input type="hidden" name={name} value={selectedOption} readOnly />
+      <input
+        type="hidden"
+        name={name}
+        value={selectedOption}
+        data-testid="column-id-input"
+      />
       <label className="body-m text-grey-400">
         Status
         <button
           ref={refs?.buttonRef}
           type="button"
+          role="openDropdown"
           id="dropdown-button"
           className="w-full body-l px-4 py-2 flex items-center justify-between border border-[#828fa3]/25 rounded-sm cursor-pointer"
           onClick={() => {
