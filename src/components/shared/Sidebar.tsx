@@ -36,7 +36,7 @@ function Sidebar() {
           </ul>
         )}
         <button
-          className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer"
+          className="py-3.75 w-full pl-6  flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer"
           onClick={() => {
             openModal("create-board");
           }}

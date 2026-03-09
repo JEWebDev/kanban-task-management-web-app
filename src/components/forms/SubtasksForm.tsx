@@ -30,6 +30,7 @@ function SubtasksForm({ label }: SubtasksFormProps) {
               key={textInput}
               label={`${label}(${index + 1})`}
               id={textInput}
+              name={label.toLowerCase() + (index + 1)}
               onDelete={() => deleteTextInput(textInput)}
               placeholder="e.g. Make coffee"
             />

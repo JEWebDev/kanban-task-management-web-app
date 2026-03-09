@@ -3,6 +3,7 @@ import { Ref } from "react";
 interface SubtaskInputProps {
   label: string;
   id: string;
+  name: string;
   placeholder: string;
   ref?: Ref<HTMLInputElement>;
   onDelete: () => void;
@@ -10,6 +11,7 @@ interface SubtaskInputProps {
 function SubtaskInput({
   label,
   id,
+  name,
   placeholder,
   ref,
   onDelete,
@@ -26,6 +28,7 @@ function SubtaskInput({
         type="text"
         className="px-4 py-2 rounded-sm w-full border border-[#828fa3]/25 body-l placeholder:body-l placeholder:text-black/25 dark:placeholder:text-white/25"
         id={id}
+        name={name}
         placeholder={placeholder}
         ref={ref}
       />

@@ -34,6 +34,7 @@ function CreateTaskModal() {
         <TextInput
           label="Title"
           id={"title"}
+          name={"title"}
           placeholder={"e.g. Take a coffee break"}
         />
 

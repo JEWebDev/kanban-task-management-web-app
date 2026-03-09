@@ -7,6 +7,7 @@ import ThemeSwitch from "./ThemeSwitch";
 import BoardItem from "./BoardItem";
 import { useParams } from "next/navigation";
 import { useBoard, useBoards } from "@/hooks/useBoards";
+import { useModalManager } from "@/hooks/useModalManager";
 
 function NavDropodown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,7 @@ function NavDropodown() {
 
   const { data: boards = [] } = useBoards();
   const { data: currentBoard } = useBoard(boardId as string);
+  const { openModal } = useModalManager();
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -65,7 +67,13 @@ function NavDropodown() {
                     />
                   ))}
               </ul>
-              <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
+              <button
+                className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer"
+                onClick={() => {
+                  openModal("create-board");
+                  setIsOpen(false);
+                }}
+              >
                 <IconBoard className="w-4 h-4 " />+ Create New Board
               </button>
             </div>

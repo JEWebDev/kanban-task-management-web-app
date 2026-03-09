@@ -2,9 +2,43 @@ import { useDialog } from "@/hooks/useDialog";
 import SubtasksForm from "../forms/SubtasksForm";
 import PrimaryButton from "../shared/buttons/PrimaryButton";
 import TextInput from "../shared/inputs/TextInput";
+import { useCreateBoard } from "@/hooks/useBoards";
+import { BoardSchema } from "@/schemas/boardSchema";
+import z from "zod";
+import { useState } from "react";
 
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
+  const { mutate: createBoard } = useCreateBoard();
+  const [errors, setErrors] = useState<string[] | undefined>([]);
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const boardName = formData.get("boardName") as string;
+    const columnNames =
+      Array.from(formData.entries())
+        .filter(
+          ([key, value]) =>
+            key.startsWith("columns") &&
+            typeof value === "string" &&
+            value.trim() !== "",
+        )
+        .map(([, value]) => value as string) ?? [];
+
+    const result = BoardSchema.safeParse({
+      boardName: boardName,
+      columns: columnNames,
+    });
+
+    if (!result.success) {
+      const tree = z.treeifyError(result.error);
+      setErrors(tree?.properties?.boardName?.errors);
+      return;
+    }
+    createBoard({ boardName, columnNames });
+    setErrors([]);
+    closeDialog();
+  };
   return (
     <dialog
       ref={dialogRef}
@@ -16,11 +50,13 @@ function AddNewBoard() {
       className="mx-auto my-auto p-6 md:p-8 max-h-168.5 md:max-h-176 bg-white dark:bg-black-600 backdrop:bg-black/50 rounded-sm md:rounded-md min-w-85.75 md:min-w-120 text-black dark:text-white"
     >
       <h2 className="mb-6 heading-l">Add New Board</h2>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <TextInput
           label={"Name"}
           id={"boardName"}
+          name={"boardName"}
           placeholder="e.g. Web Design"
+          error={errors?.[0]}
         />
 
         <SubtasksForm label="Columns" />
