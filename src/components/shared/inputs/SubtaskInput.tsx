@@ -29,7 +29,7 @@ function SubtaskInput({
         placeholder={placeholder}
         ref={ref}
       />
-      <button type="button" onClick={onDelete}>
+      <button type="button" onClick={onDelete} className="hover:cursor-pointer">
         <IconCross className="w-3.75 h-3.75" />
       </button>
     </div>

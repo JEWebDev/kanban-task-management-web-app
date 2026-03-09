@@ -21,7 +21,12 @@ export default async function RootLayout({
   });
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={``}>
+      <title>Kanban Management Web App</title>
+      <meta
+        name="description"
+        content="Kanban is a Trello-like app for time and projects management."
+      />
+      <body>
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <MainContainer>{children}</MainContainer>

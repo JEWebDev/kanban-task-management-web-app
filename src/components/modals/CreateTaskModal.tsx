@@ -1,47 +1,24 @@
-import { useEffect, useRef } from "react";
 import PrimaryButton from "../shared/buttons/PrimaryButton";
 import TextInput from "../shared/inputs/TextInput";
 import Dropdown from "../shared/Dropdown";
 import SubtasksForm from "../forms/SubtasksForm";
-import { useRouter } from "next/navigation";
+import { useDialog } from "@/hooks/useDialog";
+import { useParams } from "next/navigation";
+import { useBoard } from "@/hooks/useBoards";
+import { useMemo } from "react";
 
 function CreateTaskModal() {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const router = useRouter();
+  const { dialogRef, handleSubmit, closeDialog, handleClickOutside } =
+    useDialog();
 
-  const handleSubmit = (e: React.SubmitEvent) => {
-    e.preventDefault();
-  };
-
-  const closeDialog = () => {
-    if (window.location.search.includes("modal=")) {
-      router.back();
-    }
-  };
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (dialog && !dialog.open) {
-      dialog.showModal();
-    }
-  }, []);
+  const { boardId } = useParams();
+  const { data: board } = useBoard(boardId as string);
+  const columns = useMemo(() => board?.columns || [], [board?.columns]);
 
   return (
     <dialog
       className="mx-auto my-auto p-6 md:p-8 max-h-168.5 md:max-h-176 bg-white dark:bg-black-600 backdrop:bg-black/50 rounded-sm md:rounded-md min-w-85.75 md:min-w-120 text-black dark:text-white"
-      onClick={(e) => {
-        if (e.target !== dialogRef.current) return;
-        const rect = dialogRef.current?.getBoundingClientRect();
-        if (
-          rect &&
-          (e.clientX < rect.left ||
-            e.clientX > rect.right ||
-            e.clientY < rect.top ||
-            e.clientY > rect.bottom)
-        ) {
-          closeDialog();
-        }
-      }}
+      onClick={handleClickOutside}
       ref={dialogRef}
       onCancel={(e) => {
         e.preventDefault();
@@ -72,28 +49,9 @@ function CreateTaskModal() {
           />
         </label>
 
-        <SubtasksForm />
+        <SubtasksForm label="Subtasks" />
 
-        <Dropdown
-          columns={[
-            {
-              column_id: "assdkj1231",
-              name: "Todo",
-              tasks: [],
-            },
-            {
-              column_id: "wqeqej1231",
-              name: "Doing",
-              tasks: [],
-            },
-            {
-              column_id: "zzrckj1231",
-              name: "Done",
-              tasks: [],
-            },
-          ]}
-          name={"column-id"}
-        />
+        <Dropdown columns={columns} name="column_id" />
         <PrimaryButton type={"submit"} onClick={() => {}}>
           Create Task
         </PrimaryButton>
