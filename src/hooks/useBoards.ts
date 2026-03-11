@@ -21,7 +21,7 @@ export function useBoard(id: string) {
   });
 }
 
-export function useCreateBoard() {
+export function useCreateBoard(onErrorCallback?: (msg: string[]) => void) {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
@@ -35,7 +35,11 @@ export function useCreateBoard() {
     },
 
     onError: (error) => {
-      console.error("Error creating board: ", error.message);
+      if (error.message === "DUPLICATE_BOARD_NAME" && onErrorCallback) {
+        onErrorCallback(["Duplicated name"]);
+      } else {
+        console.error("Error creating board: ", error.message);
+      }
     },
   });
 }

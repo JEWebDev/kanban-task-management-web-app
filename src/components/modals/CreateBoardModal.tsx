@@ -9,8 +9,10 @@ import { useState } from "react";
 
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
-  const { mutate: createBoard, isPending } = useCreateBoard();
   const [errors, setErrors] = useState<string[] | undefined>([]);
+  const { mutate: createBoard, isPending } = useCreateBoard((msg) =>
+    setErrors(msg),
+  );
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
