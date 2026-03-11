@@ -9,8 +9,9 @@ import { useState } from "react";
 
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
-  const { mutate: createBoard } = useCreateBoard();
+  const { mutate: createBoard, isPending } = useCreateBoard();
   const [errors, setErrors] = useState<string[] | undefined>([]);
+
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -36,8 +37,9 @@ function AddNewBoard() {
       return;
     }
     createBoard({ boardName, columnNames });
-    setErrors([]);
-    closeDialog();
+    if (!isPending) {
+      setErrors([]);
+    }
   };
   return (
     <dialog
@@ -61,7 +63,7 @@ function AddNewBoard() {
 
         <SubtasksForm label="Columns" />
         <PrimaryButton type={"submit"} onClick={() => {}}>
-          Create New Board
+          {isPending ? "Creating board..." : "Create New Board"}
         </PrimaryButton>
       </form>
     </dialog>

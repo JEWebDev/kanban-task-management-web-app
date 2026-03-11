@@ -1,9 +1,7 @@
 import { useSearchParams } from "next/navigation";
-import CreateTaskModal from "./modals/CreateTaskModal";
 import CreateBoardModal from "./modals/CreateBoardModal";
 
 const MODAL_COMPONENTS = {
-  "create-task": CreateTaskModal,
   "create-board": CreateBoardModal,
 } as const;
 
