@@ -1,5 +1,7 @@
 # Frontend Mentor - Kanban task management web app solution
 
+![Unit Tests](https://github.com/JEWebDev/kanban-task-management-web-app/actions/workflows/unit-tests.yml/badge.svg)
+
 This is a solution to the [Kanban task management web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-HlbB).
 
 ## 🔎 Table of contents
