@@ -1,3 +1,4 @@
+import { Board } from "@/types/data";
 import {
   createBoard,
   getAllBoards,
@@ -21,24 +22,16 @@ export function useBoard(id: string) {
   });
 }
 
-export function useCreateBoard(onErrorCallback?: (msg: string[]) => void) {
+export function useCreateBoard() {
   const queryClient = useQueryClient();
   const router = useRouter();
+
   return useMutation({
     mutationFn: createBoard,
-    onSuccess: (data) => {
-      const newBoardId = data?.board_id;
-      queryClient.invalidateQueries({ queryKey: ["boards"] });
-      if (newBoardId) {
-        router.push(`/${newBoardId}`);
-      }
-    },
-
-    onError: (error) => {
-      if (error.message === "DUPLICATE_BOARD_NAME" && onErrorCallback) {
-        onErrorCallback(["Duplicated name"]);
-      } else {
-        console.error("Error creating board: ", error.message);
+    onSuccess: async (newBoard: Board) => {
+      await queryClient.invalidateQueries({ queryKey: ["boards"] });
+      if (newBoard.board_id) {
+        router.push(`/${newBoard.board_id}`);
       }
     },
   });

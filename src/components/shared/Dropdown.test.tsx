@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import Dropdown from "./Dropdown";
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 const mockColumns = [
@@ -10,6 +10,9 @@ const mockColumns = [
 ];
 
 describe("ColumnSelector Dropdown", () => {
+  beforeAll(() => {
+    vi.clearAllMocks();
+  });
   it("should change the id of index 0 by default if there is no interaction", () => {
     render(<Dropdown columns={mockColumns} name={"columnId"} />);
 

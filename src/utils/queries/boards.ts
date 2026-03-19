@@ -36,6 +36,8 @@ export const createBoard = async ({
   columnNames: string[];
 }) => {
   const supabase = await createClient();
+  if (!boardName || boardName.trim() === "")
+    throw new Error("Name is required");
   const { data, error } = await supabase.rpc("create_board", {
     board_name: boardName,
     column_names: columnNames,

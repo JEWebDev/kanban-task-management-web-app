@@ -10,12 +10,11 @@ import { useState } from "react";
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
   const [errors, setErrors] = useState<string[] | undefined>([]);
-  const { mutate: createBoard, isPending } = useCreateBoard((msg) =>
-    setErrors(msg),
-  );
+  const { mutateAsync: createBoard, isPending } = useCreateBoard();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors([]);
     const formData = new FormData(e.currentTarget);
     const boardName = formData.get("boardName") as string;
     const columnNames =
@@ -32,17 +31,26 @@ function AddNewBoard() {
       boardName: boardName,
       columns: columnNames,
     });
-
     if (!result.success) {
       const tree = z.treeifyError(result.error);
       setErrors(tree?.properties?.boardName?.errors);
       return;
     }
-    createBoard({ boardName, columnNames });
-    if (!isPending) {
-      setErrors([]);
+    try {
+      await createBoard({ boardName, columnNames });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrors([
+          error.message === "DUPLICATE_BOARD_NAME"
+            ? "Duplicated name"
+            : error.message,
+        ]);
+      } else {
+        setErrors(["An unknown error has occurred"]);
+      }
     }
   };
+
   return (
     <dialog
       ref={dialogRef}
@@ -64,7 +72,7 @@ function AddNewBoard() {
         />
 
         <SubtasksForm label="Columns" />
-        <PrimaryButton type={"submit"} onClick={() => {}}>
+        <PrimaryButton type={"submit"} onClick={() => {}} disabled={isPending}>
           {isPending ? "Creating board..." : "Create New Board"}
         </PrimaryButton>
       </form>
