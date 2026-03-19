@@ -7,6 +7,7 @@ import IconLogoDark from "@/components/icons/IconLogoDark";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
+import { useModalManager } from "@/hooks/useModalManager";
 
 interface HeaderProps {
   className?: string;
@@ -15,6 +16,7 @@ interface HeaderProps {
 function Header({ className }: HeaderProps) {
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
+  const { openModal } = useModalManager();
   return (
     <>
       <header
@@ -34,7 +36,9 @@ function Header({ className }: HeaderProps) {
           <div className="flex items-center">
             <button
               className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
-              onClick={() => {}}
+              onClick={() => {
+                openModal("create-task");
+              }}
               disabled={!board?.columns || board.columns.length === 0}
             >
               <IconAddTaskMobile className="md:hidden w-3 h-3" />
