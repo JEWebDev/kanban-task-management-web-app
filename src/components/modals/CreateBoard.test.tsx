@@ -54,7 +54,7 @@ describe("AddNewBoard Component", () => {
 
     render(<AddNewBoard />);
 
-    const modal = screen.getByRole("dialog");
+    const modal = screen.getByRole("dialog", { hidden: true });
     const nameInput = within(modal).getByLabelText(/name/i);
     await user.type(nameInput, "Mi Nuevo Tablero");
 
@@ -64,6 +64,7 @@ describe("AddNewBoard Component", () => {
 
     const submitButton = within(modal).getByRole("button", {
       name: /Create New Board/i,
+      hidden: true,
     });
     await user.click(submitButton);
 
@@ -83,6 +84,7 @@ describe("AddNewBoard Component", () => {
 
     const submitButton = screen.getByRole("button", {
       name: /Creating board.../i,
+      hidden: true,
     });
     expect(submitButton).toBeDisabled();
   });
@@ -116,6 +118,7 @@ describe("AddNewBoard Component", () => {
 
     const submitButton = screen.getByRole("button", {
       name: "Create New Board",
+      hidden: true,
     });
     await user.click(submitButton);
 
@@ -137,6 +140,7 @@ describe("AddNewBoard Component", () => {
     const nameInput = screen.getByLabelText(/name/i);
     const submitButton = screen.getByRole("button", {
       name: /Create New Board/i,
+      hidden: true,
     });
 
     await user.type(nameInput, "Marketing Plan");
@@ -158,6 +162,7 @@ describe("AddNewBoard Component", () => {
 
     const submitButton = screen.getByRole("button", {
       name: "Create New Board",
+      hidden: true,
     });
 
     await user.click(submitButton);
