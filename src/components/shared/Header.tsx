@@ -7,8 +7,6 @@ import IconLogoDark from "@/components/icons/IconLogoDark";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
-import CreateTaskModal from "../modals/CreateTaskModal";
-import { useState } from "react";
 
 interface HeaderProps {
   className?: string;
@@ -17,7 +15,6 @@ interface HeaderProps {
 function Header({ className }: HeaderProps) {
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   return (
     <>
       <header
@@ -37,7 +34,8 @@ function Header({ className }: HeaderProps) {
           <div className="flex items-center">
             <button
               className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
-              onClick={() => setIsTaskModalOpen(true)}
+              onClick={() => {}}
+              disabled={!board?.columns || board.columns.length === 0}
             >
               <IconAddTaskMobile className="md:hidden w-3 h-3" />
               <span className="hidden md:block text-white heading-m">
@@ -50,13 +48,6 @@ function Header({ className }: HeaderProps) {
           </div>
         </div>
       </header>
-
-      {isTaskModalOpen && (
-        <CreateTaskModal
-          isOpen={isTaskModalOpen}
-          onClose={() => setIsTaskModalOpen(false)}
-        />
-      )}
     </>
   );
 }

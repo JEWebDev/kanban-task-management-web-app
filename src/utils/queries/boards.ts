@@ -27,3 +27,25 @@ export const getBoardById = async (boardId: string) => {
   if (error) throw error;
   return data as Board;
 };
+
+export const createBoard = async ({
+  boardName,
+  columnNames,
+}: {
+  boardName: string;
+  columnNames: string[];
+}) => {
+  const supabase = await createClient();
+  if (!boardName || boardName.trim() === "")
+    throw new Error("Name is required");
+  const { data, error } = await supabase.rpc("create_board", {
+    board_name: boardName,
+    column_names: columnNames,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
