@@ -26,7 +26,7 @@ function AddNewBoard() {
           id={"boardName"}
           name={"boardName"}
           placeholder="e.g. Web Design"
-          error={errors?.[0]}
+          error={errors?.boardName || errors?.columnName}
         />
 
         <SubtasksForm label="Columns" />
