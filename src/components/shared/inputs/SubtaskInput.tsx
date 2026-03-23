@@ -2,7 +2,7 @@ import IconCross from "@/components/icons/IconCross";
 import { Ref } from "react";
 interface SubtaskInputProps {
   label: string;
-  id: string;
+  id: number;
   name: string;
   placeholder: string;
   ref?: Ref<HTMLInputElement>;
@@ -19,7 +19,7 @@ function SubtaskInput({
   return (
     <div className="flex items-center gap-4 w-full">
       <label
-        htmlFor={id}
+        htmlFor={id.toString()}
         className="heading-s text-grey-400 flex flex-col gap-2 sr-only"
       >
         {label}
@@ -27,7 +27,7 @@ function SubtaskInput({
       <input
         type="text"
         className="px-4 py-2 rounded-sm w-full border border-[#828fa3]/25 body-l placeholder:body-l placeholder:text-black/25 dark:placeholder:text-white/25"
-        id={id}
+        id={id.toString()}
         name={name}
         placeholder={placeholder}
         ref={ref}
