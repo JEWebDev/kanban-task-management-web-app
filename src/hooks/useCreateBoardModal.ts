@@ -27,13 +27,14 @@ export const useCreateBoardModal = () => {
         .map(([, value]) => value as string) ?? [];
     const result = BoardSchema.safeParse({
       boardName: boardName,
-      columns: columnNames,
+      columnNames: columnNames,
     });
     if (!result.success) {
       const newErrors: CreateBoardErrors = {};
       result.error.issues.forEach((issue) => {
         const path = issue.path.join(".");
         newErrors[path] = issue.message;
+        console.log(newErrors);
       });
 
       setErrors(newErrors);
