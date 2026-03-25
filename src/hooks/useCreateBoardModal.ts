@@ -36,6 +36,7 @@ export const useCreateBoardModal = () => {
       return;
     }
     try {
+      setErrors(undefined);
       await createBoard({ boardName, columnNames });
     } catch (error: unknown) {
       if (error instanceof Error) {
