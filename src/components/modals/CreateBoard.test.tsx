@@ -6,6 +6,7 @@ import { useCreateBoard } from "@/hooks/useBoards";
 import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/navigation";
 import { Board } from "@/types/data";
+import { FormErrorProvider } from "@/context/FormErrorContext";
 
 vi.mock("@/hooks/useDialog", () => ({
   useDialog: () => ({
@@ -40,7 +41,11 @@ describe("AddNewBoard Component", () => {
       mockSearchParams as unknown as ReadonlyURLSearchParams,
     );
 
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
   });
 
   it("Should call createBoard with the correct data on submit", async () => {
@@ -52,7 +57,11 @@ describe("AddNewBoard Component", () => {
       isPending: false,
     } as unknown as ReturnType<typeof useCreateBoard>);
 
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
 
     const modal = screen.getByRole("dialog", { hidden: true });
     const nameInput = within(modal).getByLabelText(/name/i);
@@ -79,8 +88,11 @@ describe("AddNewBoard Component", () => {
       mutateAsync: vi.fn(),
       isPending: true, // Simulamos estado de carga
     } as unknown as ReturnType<typeof useCreateBoard>);
-
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
 
     const submitButton = screen.getByRole("button", {
       name: /Creating board.../i,
@@ -110,8 +122,11 @@ describe("AddNewBoard Component", () => {
       mutateAsync: mockMutateAsync,
       isPending: false,
     } as unknown as ReturnType<typeof useCreateBoard>);
-
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
 
     const nameInput = screen.getByPlaceholderText("e.g. Web Design");
     await user.type(nameInput, "New Test Board");
@@ -134,8 +149,11 @@ describe("AddNewBoard Component", () => {
       mutateAsync: vi.fn().mockRejectedValue(new Error("DUPLICATE_BOARD_NAME")),
       isPending: false,
     } as unknown as ReturnType<typeof useCreateBoard>);
-
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
 
     const nameInput = screen.getByLabelText(/name/i);
     const submitButton = screen.getByRole("button", {
@@ -146,7 +164,7 @@ describe("AddNewBoard Component", () => {
     await user.type(nameInput, "Marketing Plan");
     await user.click(submitButton);
 
-    const errorMsg = await screen.findByText("Duplicated name");
+    const errorMsg = await screen.findByText("Board already exists");
     expect(errorMsg).toBeInTheDocument();
   });
 
@@ -158,7 +176,11 @@ describe("AddNewBoard Component", () => {
       isPending: false,
     } as unknown as ReturnType<typeof useCreateBoard>);
 
-    render(<AddNewBoard />);
+    render(
+      <FormErrorProvider>
+        <AddNewBoard />
+      </FormErrorProvider>,
+    );
 
     const submitButton = screen.getByRole("button", {
       name: "Create New Board",

@@ -22,7 +22,7 @@ function ModalContent() {
   const ActiveModal = MODAL_COMPONENTS[modalParam] ?? null;
   if (!ActiveModal) return null;
 
-  return <>{<ActiveModal />}</>;
+  return <ActiveModal />;
 }
 
 function ModalManager() {
