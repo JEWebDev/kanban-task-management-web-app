@@ -29,3 +29,7 @@ export interface Board {
   name: string;
   columns?: Column[];
 }
+
+export interface FormError {
+  [key: string]: string;
+}

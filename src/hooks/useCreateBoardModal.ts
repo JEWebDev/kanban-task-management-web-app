@@ -1,16 +1,11 @@
 import { BoardSchema } from "@/schemas/boardSchema";
-import { useState } from "react";
 import { useCreateBoard } from "./useBoards";
-
-interface CreateBoardErrors {
-  [key: string]: string;
-}
+import { FormError } from "@/types/data";
+import { useFormErrorContext } from "@/context/FormErrorContext";
 
 export const useCreateBoardModal = () => {
   const { mutateAsync: createBoard } = useCreateBoard();
-  const [errors, setErrors] = useState<CreateBoardErrors | undefined>(
-    undefined,
-  );
+  const { errors, setErrors } = useFormErrorContext();
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(undefined);
@@ -30,7 +25,7 @@ export const useCreateBoardModal = () => {
       columnNames: columnNames,
     });
     if (!result.success) {
-      const newErrors: CreateBoardErrors = {};
+      const newErrors: FormError = {};
       result.error.issues.forEach((issue) => {
         const path = issue.path.join(".");
         newErrors[path] = issue.message;
