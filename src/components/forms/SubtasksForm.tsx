@@ -8,7 +8,6 @@ interface SubtasksFormProps {
 }
 function SubtasksForm({ label, name }: SubtasksFormProps) {
   const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
-
   const nextId = useRef(2);
 
   const addTextInput = () => {

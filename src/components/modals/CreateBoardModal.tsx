@@ -8,7 +8,7 @@ import { useCreateBoardModal } from "@/hooks/useCreateBoardModal";
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
   const { isPending } = useCreateBoard();
-  const { errors, handleSubmit } = useCreateBoardModal();
+  const { handleSubmit } = useCreateBoardModal();
   return (
     <dialog
       ref={dialogRef}
@@ -21,13 +21,15 @@ function AddNewBoard() {
     >
       <h2 className="mb-6 heading-l">Add New Board</h2>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-        <TextInput
-          label={"Name"}
-          id={"boardName"}
-          name={"boardName"}
-          placeholder="e.g. Web Design"
-          error={errors?.boardName || errors?.columnName}
-        />
+        <div className="flex flex-col gap-2">
+          <TextInput
+            label={"Name"}
+            id={"boardName"}
+            name={"boardName"}
+            placeholder="e.g. Web Design"
+          />
+        </div>
+
         <SubtasksForm label="Columns" name="columnNames" />
         <PrimaryButton type={"submit"} onClick={() => {}} disabled={isPending}>
           {isPending ? "Creating board..." : "Create New Board"}
