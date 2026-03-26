@@ -6,15 +6,17 @@ export const BoardSchema = z.object({
     .array(z.string().trim())
     .default([])
     .superRefine((items, ctx) => {
+      const seen = new Set();
       items.forEach((item, index) => {
         if (item.length === 0) return;
-        if (items.indexOf(item) !== index) {
+        if (seen.has(item)) {
           ctx.addIssue({
             code: "custom",
             message: "Column name duplicated",
             path: [index],
           });
         }
+        seen.add(item);
       });
     }),
 });
