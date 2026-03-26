@@ -15,7 +15,7 @@ export const useCreateBoardModal = () => {
       Array.from(formData.entries())
         .filter(
           ([key, value]) =>
-            key.startsWith("columns") &&
+            key.startsWith("columnNames") &&
             typeof value === "string" &&
             value.trim() !== "",
         )

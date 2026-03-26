@@ -4,8 +4,9 @@ import { useRef, useState } from "react";
 
 interface SubtasksFormProps {
   label: string;
+  name: string;
 }
-function SubtasksForm({ label }: SubtasksFormProps) {
+function SubtasksForm({ label, name }: SubtasksFormProps) {
   const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
 
   const nextId = useRef(2);
@@ -29,7 +30,7 @@ function SubtasksForm({ label }: SubtasksFormProps) {
               key={textInput.id}
               label={`${label}(${index + 1})`}
               id={textInput.id}
-              name={label.toLowerCase() + (index + 1)}
+              name={`${name}.${index}`}
               onDelete={() => deleteTextInput(textInput.id)}
               placeholder="e.g. Make coffee"
             />

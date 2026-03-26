@@ -28,7 +28,7 @@ function AddNewBoard() {
           placeholder="e.g. Web Design"
           error={errors?.boardName || errors?.columnName}
         />
-        <SubtasksForm label="Columns" />
+        <SubtasksForm label="Columns" name="columnNames" />
         <PrimaryButton type={"submit"} onClick={() => {}} disabled={isPending}>
           {isPending ? "Creating board..." : "Create New Board"}
         </PrimaryButton>
