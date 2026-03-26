@@ -1,24 +1,28 @@
 import SubtaskInput from "../shared/inputs/SubtaskInput";
 import SecondaryButton from "../shared/buttons/SecondaryButton";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { updateErrorsOnDelete } from "@/utils/formUtils";
+import { useFormErrorContext } from "@/context/FormErrorContext";
 
 interface SubtasksFormProps {
   label: string;
+  name: string;
 }
-function SubtasksForm({ label }: SubtasksFormProps) {
-  const [textInputs, setTextInputs] = useState([
-    crypto.randomUUID(),
-    crypto.randomUUID(),
-  ]);
-
+function SubtasksForm({ label, name }: SubtasksFormProps) {
+  const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
+  const nextId = useRef(2);
+  const { setErrors } = useFormErrorContext();
   const addTextInput = () => {
-    const newTextInputs = [...textInputs, crypto.randomUUID()];
-    setTextInputs(newTextInputs);
+    setTextInputs([...textInputs, { id: nextId.current }]);
+    nextId.current += 1;
   };
 
-  const deleteTextInput = (id: string) => {
-    const newSubtasks = textInputs.filter((textInput) => textInput !== id);
+  const deleteTextInput = (id: number, index: number) => {
+    const newSubtasks = textInputs.filter((textInput) => textInput.id !== id);
     setTextInputs(newSubtasks);
+    setErrors((prev) => {
+      return updateErrorsOnDelete(prev ?? {}, name, index);
+    });
   };
   return (
     <>
@@ -27,11 +31,11 @@ function SubtasksForm({ label }: SubtasksFormProps) {
         {textInputs.map((textInput, index) => {
           return (
             <SubtaskInput
-              key={textInput}
+              key={textInput.id}
               label={`${label}(${index + 1})`}
-              id={textInput}
-              name={label.toLowerCase() + (index + 1)}
-              onDelete={() => deleteTextInput(textInput)}
+              id={textInput.id}
+              name={`${name}.${index}`}
+              onDelete={() => deleteTextInput(textInput.id, index)}
               placeholder="e.g. Make coffee"
             />
           );

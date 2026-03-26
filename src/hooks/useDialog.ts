@@ -1,10 +1,11 @@
+import { useFormErrorContext } from "@/context/FormErrorContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export const useDialog = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
-
+  const { setErrors } = useFormErrorContext();
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
   };
@@ -12,6 +13,7 @@ export const useDialog = () => {
   const closeDialog = () => {
     if (window.location.search.includes("modal=")) {
       router.back();
+      setErrors(undefined);
     }
   };
   const handleClickOutside = (e: React.MouseEvent) => {

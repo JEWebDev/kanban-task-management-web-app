@@ -1,46 +1,56 @@
 import { BoardSchema } from "@/schemas/boardSchema";
-import { useState } from "react";
-import z from "zod";
 import { useCreateBoard } from "./useBoards";
+import { FormError } from "@/types/data";
+import { useFormErrorContext } from "@/context/FormErrorContext";
 
 export const useCreateBoardModal = () => {
   const { mutateAsync: createBoard } = useCreateBoard();
-  const [errors, setErrors] = useState<string[] | undefined>([]);
+  const { errors, setErrors } = useFormErrorContext();
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors([]);
+    setErrors(undefined);
     const formData = new FormData(e.currentTarget);
     const boardName = formData.get("boardName") as string;
     const columnNames =
       Array.from(formData.entries())
         .filter(
           ([key, value]) =>
-            key.startsWith("columns") &&
+            key.startsWith("columnNames") &&
             typeof value === "string" &&
             value.trim() !== "",
         )
         .map(([, value]) => value as string) ?? [];
-
     const result = BoardSchema.safeParse({
       boardName: boardName,
-      columns: columnNames,
+      columnNames: columnNames,
     });
     if (!result.success) {
-      const tree = z.treeifyError(result.error);
-      setErrors(tree?.properties?.boardName?.errors);
+      const newErrors: FormError = {};
+      result.error.issues.forEach((issue) => {
+        const path = issue.path.join(".");
+        newErrors[path] = issue.message;
+        console.log(newErrors);
+      });
+
+      setErrors(newErrors);
       return;
     }
     try {
+      setErrors(undefined);
       await createBoard({ boardName, columnNames });
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setErrors([
-          error.message === "DUPLICATE_BOARD_NAME"
-            ? "Duplicated name"
-            : error.message,
-        ]);
+        if (error.message === "DUPLICATE_BOARD_NAME") {
+          setErrors({ boardName: "Board already exists" });
+        }
+        if (error.message === "DUPLICATE_COLUMN_NAME_IN_BOARD") {
+          setErrors({ columnName: "Column name can't be duplicated" });
+        }
       } else {
-        setErrors(["An unknown error has occurred"]);
+        if (error instanceof Error)
+          setErrors({
+            serverError: `An unexpected error has occurred ${error.message}`,
+          });
       }
     }
   };

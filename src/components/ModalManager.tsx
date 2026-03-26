@@ -1,6 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import CreateBoardModal from "./modals/CreateBoardModal";
 import CreateTaskModal from "./modals/CreateTaskModal";
+import { FormErrorProvider } from "@/context/FormErrorContext";
 
 const MODAL_COMPONENTS = {
   "create-board": CreateBoardModal,
@@ -8,20 +9,28 @@ const MODAL_COMPONENTS = {
 } as const;
 
 type ModalType = keyof typeof MODAL_COMPONENTS;
+const isvalidModal = (key: string | null): key is ModalType => {
+  return key !== null && key in MODAL_COMPONENTS;
+};
 
 function ModalContent() {
   const params = useSearchParams();
   const modalParam = params.get("modal");
 
-  const ActiveModal = MODAL_COMPONENTS[modalParam as ModalType] ?? null;
+  if (!isvalidModal(modalParam)) return null;
+
+  const ActiveModal = MODAL_COMPONENTS[modalParam] ?? null;
   if (!ActiveModal) return null;
-  return <>{<ActiveModal />}</>;
+
+  return <ActiveModal />;
 }
 
 function ModalManager() {
   return (
     <>
-      <ModalContent />
+      <FormErrorProvider>
+        <ModalContent />
+      </FormErrorProvider>
     </>
   );
 }
