@@ -29,7 +29,6 @@ export const useCreateBoardModal = () => {
       result.error.issues.forEach((issue) => {
         const path = issue.path.join(".");
         newErrors[path] = issue.message;
-        console.log(newErrors);
       });
 
       setErrors(newErrors);

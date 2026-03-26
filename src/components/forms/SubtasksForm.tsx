@@ -7,8 +7,9 @@ import { useFormErrorContext } from "@/context/FormErrorContext";
 interface SubtasksFormProps {
   label: string;
   name: string;
+  placeholder: string;
 }
-function SubtasksForm({ label, name }: SubtasksFormProps) {
+function SubtasksForm({ label, name, placeholder }: SubtasksFormProps) {
   const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
   const nextId = useRef(2);
   const { setErrors } = useFormErrorContext();
@@ -36,7 +37,7 @@ function SubtasksForm({ label, name }: SubtasksFormProps) {
               id={textInput.id}
               name={`${name}.${index}`}
               onDelete={() => deleteTextInput(textInput.id, index)}
-              placeholder="e.g. Make coffee"
+              placeholder={placeholder}
             />
           );
         })}
