@@ -50,7 +50,11 @@ function CreateTaskModal() {
           />
         </label>
 
-        <SubtasksForm label="Subtasks" />
+        <SubtasksForm
+          label="Subtasks"
+          name="taskNames"
+          placeholder="e.g. Make coffee"
+        />
 
         <Dropdown columns={columns} name="column_id" />
         <PrimaryButton type={"submit"} onClick={() => {}}>
