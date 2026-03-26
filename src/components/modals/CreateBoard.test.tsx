@@ -67,7 +67,7 @@ describe("AddNewBoard Component", () => {
     const nameInput = within(modal).getByLabelText("Name");
     await user.type(nameInput, "Mi Nuevo Tablero");
 
-    const columnInputs = screen.getAllByPlaceholderText("e.g. Make coffee");
+    const columnInputs = screen.getAllByPlaceholderText("e.g. Todo");
     await user.type(columnInputs[0], "Todo");
     await user.type(columnInputs[1], "Doing");
 
