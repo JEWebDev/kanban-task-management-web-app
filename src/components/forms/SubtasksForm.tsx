@@ -1,6 +1,8 @@
 import SubtaskInput from "../shared/inputs/SubtaskInput";
 import SecondaryButton from "../shared/buttons/SecondaryButton";
 import { useRef, useState } from "react";
+import { updateErrorsOnDelete } from "@/utils/formUtils";
+import { useFormErrorContext } from "@/context/FormErrorContext";
 
 interface SubtasksFormProps {
   label: string;
@@ -9,15 +11,18 @@ interface SubtasksFormProps {
 function SubtasksForm({ label, name }: SubtasksFormProps) {
   const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
   const nextId = useRef(2);
-
+  const { setErrors } = useFormErrorContext();
   const addTextInput = () => {
     setTextInputs([...textInputs, { id: nextId.current }]);
     nextId.current += 1;
   };
 
-  const deleteTextInput = (id: number) => {
+  const deleteTextInput = (id: number, index: number) => {
     const newSubtasks = textInputs.filter((textInput) => textInput.id !== id);
     setTextInputs(newSubtasks);
+    setErrors((prev) => {
+      return updateErrorsOnDelete(prev ?? {}, name, index);
+    });
   };
   return (
     <>
@@ -30,7 +35,7 @@ function SubtasksForm({ label, name }: SubtasksFormProps) {
               label={`${label}(${index + 1})`}
               id={textInput.id}
               name={`${name}.${index}`}
-              onDelete={() => deleteTextInput(textInput.id)}
+              onDelete={() => deleteTextInput(textInput.id, index)}
               placeholder="e.g. Make coffee"
             />
           );
