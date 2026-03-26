@@ -64,7 +64,7 @@ describe("AddNewBoard Component", () => {
     );
 
     const modal = screen.getByRole("dialog", { hidden: true });
-    const nameInput = within(modal).getByLabelText(/name/i);
+    const nameInput = within(modal).getByLabelText("Name");
     await user.type(nameInput, "Mi Nuevo Tablero");
 
     const columnInputs = screen.getAllByPlaceholderText("e.g. Make coffee");
@@ -142,7 +142,7 @@ describe("AddNewBoard Component", () => {
     });
   });
 
-  it("Should show 'Duplicated name' when server responds with DUPLICATED_NAME", async () => {
+  it("Should show 'Board already exists' when server responds with DUPLICATED_NAME", async () => {
     const user = userEvent.setup({ delay: null });
 
     vi.mocked(useCreateBoard).mockReturnValue({
@@ -155,7 +155,7 @@ describe("AddNewBoard Component", () => {
       </FormErrorProvider>,
     );
 
-    const nameInput = screen.getByLabelText(/name/i);
+    const nameInput = screen.getByLabelText("Name");
     const submitButton = screen.getByRole("button", {
       name: /Create New Board/i,
       hidden: true,
