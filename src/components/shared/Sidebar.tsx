@@ -6,13 +6,14 @@ import BoardItem from "./BoardItem";
 import ThemeSwitch from "./ThemeSwitch";
 import { useParams } from "next/navigation";
 import { useBoards } from "@/hooks/useBoards";
+import { useModalManager } from "@/hooks/useModalManager";
 
 function Sidebar() {
   const { boardId } = useParams();
   const { data: boards } = useBoards();
   const sidebarIsOpen = useSidebarStore((state) => state.SidebarIsOpen);
   const setSidebarIsOpen = useSidebarStore((state) => state.setSidebarIsOpen);
-
+  const { openModal } = useModalManager();
   return (
     <aside
       className={`hidden py-8 pr-5 lg:pr-6 pt-8 min-w-65 lg:min-w-75 md:flex flex-col gap-13.5 justify-between ${!sidebarIsOpen ? "md:hidden lg:hidden" : "md:flex lg:flex"} dark:bg-black-400 bg-white border-r border-[#979797]/20`}
@@ -24,7 +25,6 @@ function Sidebar() {
         {boards && (
           <ul className="flex flex-col">
             {boards.map((board, index) => {
-              console.log(board.board_id);
               return (
                 <BoardItem
                   key={index}
@@ -35,7 +35,12 @@ function Sidebar() {
             })}
           </ul>
         )}
-        <button className="py-3.75 w-full pl-6 lg:pl-8 flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer">
+        <button
+          className="py-3.75 w-full pl-6  flex items-center gap-4 heading-m text-purple-500 hover:cursor-pointer"
+          onClick={() => {
+            openModal("create-board");
+          }}
+        >
           <IconBoard className="w-4 h-4 " />+ Create New Board
         </button>
       </div>

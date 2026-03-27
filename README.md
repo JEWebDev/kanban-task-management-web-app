@@ -1,5 +1,7 @@
 # Frontend Mentor - Kanban task management web app solution
 
+![Unit Tests](https://github.com/JEWebDev/kanban-task-management-web-app/actions/workflows/tests.yml/badge.svg)
+
 This is a solution to the [Kanban task management web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-HlbB).
 
 ## 🔎 Table of contents
@@ -75,8 +77,8 @@ Users should be able to:
 
 - **Conventional Commits**: strict adherence to standarized commit messages to ensure a clean and readable changelog.
 - **Git Branching Strategy**: implementation of a `main`/`develop` workflow to maintain a stable production reawdy environment while integrating new features.
-- **Unit Testing**:
-  - **Vitest**: for fast, reliable unit testing following the AAA Principle.
+- **Integration Testing**:
+  - **Vitest & React Testing Library**: for fast, reliable integration testing following the AAA Principle.
 
 ### CI/CD Pipeline
 
