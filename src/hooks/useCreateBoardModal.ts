@@ -4,10 +4,13 @@ import { FormError } from "@/types/data";
 import { useFormErrorContext } from "@/context/FormErrorContext";
 
 export const useCreateBoardModal = () => {
-  const { mutateAsync: createBoard } = useCreateBoard();
+  const { mutateAsync: createBoard, isPending } = useCreateBoard();
   const { errors, setErrors } = useFormErrorContext();
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isPending) return;
+
     setErrors(undefined);
     const formData = new FormData(e.currentTarget);
     const boardName = formData.get("boardName") as string;
@@ -54,5 +57,5 @@ export const useCreateBoardModal = () => {
     }
   };
 
-  return { errors, setErrors, handleSubmit };
+  return { errors, setErrors, handleSubmit, isPending };
 };

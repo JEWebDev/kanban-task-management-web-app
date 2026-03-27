@@ -1,0 +1,34 @@
+name: User Story
+description: Define a new functional requirement
+title: "US: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### As a user, I want to...
+        *(Replace this with your User Story)*
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: "Define the conditions that must be met for this task to be considered complete."
+      placeholder: "- [ ] Criterion 1\n- [ ] Criterion 2"
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes (Optional)
+      description: "Any technical details, API endpoints, or database changes required."
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - label: Performance
+        - label: UX/UI
+        - label: Security/Auth

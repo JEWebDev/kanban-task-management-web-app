@@ -2,13 +2,11 @@ import { useDialog } from "@/hooks/useDialog";
 import SubtasksForm from "../forms/SubtasksForm";
 import PrimaryButton from "../shared/buttons/PrimaryButton";
 import TextInput from "../shared/inputs/TextInput";
-import { useCreateBoard } from "@/hooks/useBoards";
 import { useCreateBoardModal } from "@/hooks/useCreateBoardModal";
 
 function AddNewBoard() {
   const { dialogRef, closeDialog, handleClickOutside } = useDialog();
-  const { isPending } = useCreateBoard();
-  const { handleSubmit } = useCreateBoardModal();
+  const { handleSubmit, isPending } = useCreateBoardModal();
   return (
     <dialog
       ref={dialogRef}
