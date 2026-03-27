@@ -13,9 +13,5 @@ export function useCreateTask(boardId: string) {
       });
       router.push(`/${boardId}`);
     },
-    onError: (error: unknown) => {
-      if (error instanceof Error)
-        console.error("Error creating task: ", error.message);
-    },
   });
 }

@@ -37,7 +37,6 @@ export const useCreateTaskModal = (boardId: string) => {
     });
 
     if (!result.success) {
-      console.log("error: " + result.error);
       const newErrors: FormError = {};
       result.error.issues.forEach((issue) => {
         const path = issue.path.join(".");

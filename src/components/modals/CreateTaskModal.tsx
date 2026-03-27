@@ -62,7 +62,7 @@ function CreateTaskModal() {
 
         <Dropdown columns={columns} name="column_id" />
         <PrimaryButton type={"submit"} onClick={() => {}} disabled={isPending}>
-          Create Task
+          {isPending ? "Creating task..." : "Create Task"}
         </PrimaryButton>
       </form>
     </dialog>
