@@ -2,10 +2,15 @@ import { useCreateTask } from "./useTasks"; // El hook que creamos antes
 import { useFormErrorContext } from "@/context/FormErrorContext";
 import { TaskSchema } from "@/schemas/taskSchema";
 import { FormError } from "@/types/data";
+import { useState } from "react";
 
 export const useCreateTaskModal = (boardId: string) => {
-  const { mutateAsync: createTask, isPending } = useCreateTask(boardId);
+  const { mutateAsync: createTask, isPending: isMutationPending } =
+    useCreateTask(boardId);
   const { errors, setErrors } = useFormErrorContext();
+
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isPending = isMutationPending || isNavigating;
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,6 +50,7 @@ export const useCreateTaskModal = (boardId: string) => {
     }
 
     try {
+      setErrors(undefined);
       await createTask({
         title,
         description,
@@ -52,7 +58,9 @@ export const useCreateTaskModal = (boardId: string) => {
         subtasks,
         priorityId: 1,
       });
+      setIsNavigating(true);
     } catch (error: unknown) {
+      setIsNavigating(false);
       if (error instanceof Error) {
         setErrors({
           serverError: `Error: ${error.message}`,
