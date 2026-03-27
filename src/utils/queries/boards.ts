@@ -49,3 +49,17 @@ export const createBoard = async ({
 
   return data;
 };
+
+export const deleteBoard = async (boardId: string) => {
+  const supabase = await createClient();
+  if (!boardId) return;
+  const { error } = await supabase
+    .from("boards")
+    .delete()
+    .eq("board_id", boardId);
+
+  if (error) {
+    console.log("Delete Error: ", error.message);
+    throw new Error(error.message);
+  }
+};
