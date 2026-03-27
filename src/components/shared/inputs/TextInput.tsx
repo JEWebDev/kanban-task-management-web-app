@@ -20,7 +20,7 @@ function TextInput({
   isLabelSROnly,
 }: TextInputProps) {
   const { errors } = useFormErrorContext();
-  const errorMsg = errors?.[name];
+  const errorMsg = errors?.[name] || errors?.serverError;
   return (
     <>
       <label
