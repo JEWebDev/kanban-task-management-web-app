@@ -9,16 +9,15 @@ export const useCreateTaskModal = (boardId: string) => {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isPending) return;
     setErrors(undefined);
 
     const formData = new FormData(e.currentTarget);
 
-    // Extraer datos del FormData
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const columnId = formData.get("column_id") as string;
 
-    // Extraer subtasks (basado en el name "taskNames" que usas en tu SubtasksForm)
     const subtasks = Array.from(formData.entries())
       .filter(
         ([key, value]) =>
@@ -28,7 +27,6 @@ export const useCreateTaskModal = (boardId: string) => {
       )
       .map(([, value]) => value as string);
 
-    // Validar con Zod
     const result = TaskSchema.safeParse({
       title,
       description,
@@ -52,11 +50,8 @@ export const useCreateTaskModal = (boardId: string) => {
         description,
         columnId,
         subtasks,
-        priorityId: 1, // Por defecto
+        priorityId: 1,
       });
-
-      // Si llegamos aquí, fue exitoso.
-      // El diálogo se cerrará porque el componente padre suele controlar el estado
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrors({
