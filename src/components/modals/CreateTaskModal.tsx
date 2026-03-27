@@ -6,14 +6,15 @@ import { useDialog } from "@/hooks/useDialog";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import { useMemo } from "react";
+import { useCreateTaskModal } from "@/hooks/useCreateTaskModal";
 
 function CreateTaskModal() {
-  const { dialogRef, handleSubmit, closeDialog, handleClickOutside } =
-    useDialog();
+  const { dialogRef, closeDialog, handleClickOutside } = useDialog();
 
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
   const columns = useMemo(() => board?.columns || [], [board?.columns]);
+  const { handleSubmit, isPending } = useCreateTaskModal(boardId as string);
 
   return (
     <dialog
@@ -31,12 +32,14 @@ function CreateTaskModal() {
         className="flex flex-col gap-6 overflow-y-auto"
         onSubmit={handleSubmit}
       >
-        <TextInput
-          label="Title"
-          id={"title"}
-          name={"title"}
-          placeholder={"e.g. Take a coffee break"}
-        />
+        <div className="flex flex-col gap-2">
+          <TextInput
+            label="Title"
+            id={"title"}
+            name={"title"}
+            placeholder={"e.g. Take a coffee break"}
+          />
+        </div>
 
         <label
           htmlFor="description"
@@ -47,6 +50,7 @@ function CreateTaskModal() {
             className="px-4 py-2 resize-none border border-[#828fa3]/25 body-l text-black dark:text-white placeholder:body-l placeholder:text-black/25 dark:placeholder:text-white/25 min-h-28 rounded-sm"
             id="description"
             placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
+            name="description"
           />
         </label>
 
@@ -57,7 +61,7 @@ function CreateTaskModal() {
         />
 
         <Dropdown columns={columns} name="column_id" />
-        <PrimaryButton type={"submit"} onClick={() => {}}>
+        <PrimaryButton type={"submit"} onClick={() => {}} disabled={isPending}>
           Create Task
         </PrimaryButton>
       </form>
