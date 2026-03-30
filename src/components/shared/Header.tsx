@@ -1,13 +1,13 @@
 "use client";
 import IconAddTaskMobile from "@/components/icons/IconAddTaskMobile";
 import LogoMobile from "@/components/icons/IconLogoMobile";
-import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
 import { useParams } from "next/navigation";
 import { useBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
 import { useModalManager } from "@/hooks/useModalManager";
+import ActionMenu from "./ActionMenu";
 
 interface HeaderProps {
   className?: string;
@@ -46,9 +46,7 @@ function Header({ className }: HeaderProps) {
                 + Add New Task
               </span>
             </button>
-            <button className="w-4 flex justify-end hover:cursor-pointer">
-              <IconVerticalElipsis className="w-1 h-4 md:h-5" />
-            </button>
+            <ActionMenu />
           </div>
         </div>
       </header>

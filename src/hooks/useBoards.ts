@@ -36,3 +36,15 @@ export function useCreateBoard() {
     },
   });
 }
+
+export function useDeleteBoard() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  return useMutation({
+    mutationFn: createBoard,
+    onSuccess: async (boardId: string) => {
+      await queryClient.invalidateQueries({ queryKey: ["boards"] });
+      if (boardId) router.push(`/${boardId}`);
+    },
+  });
+}
