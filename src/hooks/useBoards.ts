@@ -1,6 +1,7 @@
 import { Board } from "@/types/data";
 import {
   createBoard,
+  deleteBoard,
   getAllBoards,
   getBoardById,
 } from "@/utils/queries/boards";
@@ -41,10 +42,10 @@ export function useDeleteBoard() {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: createBoard,
-    onSuccess: async (boardId: string) => {
+    mutationFn: deleteBoard,
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["boards"] });
-      if (boardId) router.push(`/${boardId}`);
+      router.push(`/`);
     },
   });
 }

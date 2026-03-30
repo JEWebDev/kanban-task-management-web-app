@@ -59,6 +59,4 @@ export const deleteBoard = async (boardId: string) => {
     .eq("board_id", boardId);
 
   if (error) throw new Error(error.message);
-
-  return boardId;
 };

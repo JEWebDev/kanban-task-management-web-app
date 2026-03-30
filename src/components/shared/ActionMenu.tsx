@@ -2,17 +2,18 @@ import IconVerticalElipsis from "../icons/IconVerticalElipsis";
 import { useActionMenu } from "@/hooks/useActionMenu";
 interface ActionMenuProps {
   className?: string;
+  onDeleteClick: () => void;
 }
 
-function ActionMenu({ className }: ActionMenuProps) {
+function ActionMenu({ className, onDeleteClick }: ActionMenuProps) {
   const { isOpen, menuRef, closeMenu, toggleMenu } = useActionMenu();
   const handleEdit = () => {
     closeMenu();
-    console.log("Redirecting to edit modal");
   };
+
   const handleDelete = () => {
     closeMenu();
-    console.log("Opening confirmation modal");
+    onDeleteClick();
   };
   return (
     <>
@@ -31,13 +32,13 @@ function ActionMenu({ className }: ActionMenuProps) {
             className="w-40 h-5.75 text-left body-l text-grey-400 hover:cursor-pointer"
             onClick={handleEdit}
           >
-            Edit Task
+            Edit Board
           </button>
           <button
             className="w-40 h-5.75 body-l text-left text-red-500 hover:cursor-pointer"
             onClick={handleDelete}
           >
-            Delete Task
+            Delete Board
           </button>
         </div>
       )}
