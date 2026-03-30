@@ -2,12 +2,21 @@ import { BoardSchema } from "@/schemas/boardSchema";
 import { useCreateBoard } from "./useBoards";
 import { FormError } from "@/types/data";
 import { useFormErrorContext } from "@/context/FormErrorContext";
+import { useState } from "react";
 
 export const useCreateBoardModal = () => {
-  const { mutateAsync: createBoard } = useCreateBoard();
+  const { mutateAsync: createBoard, isPending: isMutationPending } =
+    useCreateBoard();
   const { errors, setErrors } = useFormErrorContext();
+
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isPending = isMutationPending || isNavigating;
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isPending) return;
+
     setErrors(undefined);
     const formData = new FormData(e.currentTarget);
     const boardName = formData.get("boardName") as string;
@@ -37,7 +46,9 @@ export const useCreateBoardModal = () => {
     try {
       setErrors(undefined);
       await createBoard({ boardName, columnNames });
+      setIsNavigating(true);
     } catch (error: unknown) {
+      setIsNavigating(false);
       if (error instanceof Error) {
         if (error.message === "DUPLICATE_BOARD_NAME") {
           setErrors({ boardName: "Board already exists" });
@@ -54,5 +65,5 @@ export const useCreateBoardModal = () => {
     }
   };
 
-  return { errors, setErrors, handleSubmit };
+  return { errors, setErrors, handleSubmit, isPending };
 };

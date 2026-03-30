@@ -52,11 +52,14 @@ export const createBoard = async ({
 
 export const deleteBoard = async (boardId: string) => {
   const supabase = await createClient();
-  if (!boardId) throw new Error("Board Id is required");
+  if (!boardId) return;
   const { error } = await supabase
     .from("boards")
     .delete()
     .eq("board_id", boardId);
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.log("Delete Error: ", error.message);
+    throw new Error(error.message);
+  }
 };

@@ -41,6 +41,7 @@ export function useCreateBoard() {
 export function useDeleteBoard() {
   const queryClient = useQueryClient();
   const router = useRouter();
+
   return useMutation({
     mutationFn: deleteBoard,
     onSuccess: async () => {
