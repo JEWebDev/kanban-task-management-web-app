@@ -1,22 +1,33 @@
 "use client";
 import IconAddTaskMobile from "@/components/icons/IconAddTaskMobile";
 import LogoMobile from "@/components/icons/IconLogoMobile";
-import IconVerticalElipsis from "@/components/icons/IconVerticalElipsis";
 import IconLogoLight from "@/components/icons/IconLogoLight";
 import IconLogoDark from "@/components/icons/IconLogoDark";
 import { useParams } from "next/navigation";
-import { useBoard } from "@/hooks/useBoards";
+import { useBoard, useDeleteBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
 import { useModalManager } from "@/hooks/useModalManager";
+import ActionMenu from "./ActionMenu";
+import { useState } from "react";
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 interface HeaderProps {
   className?: string;
 }
 
 function Header({ className }: HeaderProps) {
+  const [IsDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
   const { openModal } = useModalManager();
+
+  const { mutate: deleteBoard } = useDeleteBoard();
+  const handleDeleteBoard = () => {
+    if (boardId) {
+      deleteBoard(boardId?.toString());
+      setIsDeleteModalOpen(false);
+    }
+  };
   return (
     <>
       <header
@@ -46,12 +57,18 @@ function Header({ className }: HeaderProps) {
                 + Add New Task
               </span>
             </button>
-            <button className="w-4 flex justify-end hover:cursor-pointer">
-              <IconVerticalElipsis className="w-1 h-4 md:h-5" />
-            </button>
+            <ActionMenu onDeleteClick={() => setIsDeleteModalOpen(true)} />
           </div>
         </div>
       </header>
+      {IsDeleteModalOpen && (
+        <ConfirmationModal
+          title={"Delete this board?"}
+          description={`Are you sure you want to delete the '${board?.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
+          onConfirm={handleDeleteBoard}
+          onClose={() => setIsDeleteModalOpen(false)}
+        />
+      )}
     </>
   );
 }
