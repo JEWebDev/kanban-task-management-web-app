@@ -3,7 +3,7 @@ import { Ref } from "react";
 import TextInput from "./TextInput";
 interface SubtaskInputProps {
   label: string;
-  id: number;
+  id: string | number;
   name: string;
   placeholder: string;
   defaultValue?: string;

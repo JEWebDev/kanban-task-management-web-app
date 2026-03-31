@@ -23,7 +23,10 @@ function AddNewBoard() {
     ? BUTTON_TEXTS[mode].pending
     : BUTTON_TEXTS[mode].idle;
 
-  const columnNames = board?.columns?.map((column) => column.name);
+  const columnNames = board?.columns?.map((column) => ({
+    id: column?.column_id,
+    name: column?.name,
+  }));
 
   return (
     <dialog

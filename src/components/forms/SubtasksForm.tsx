@@ -4,43 +4,47 @@ import { useRef, useState } from "react";
 import { updateErrorsOnDelete } from "@/utils/formUtils";
 import { useFormErrorContext } from "@/context/FormErrorContext";
 
+// Updated Interface to be more specific
+interface ColumnData {
+  id: string | number;
+  name: string;
+}
+
 interface SubtasksFormProps {
   label: string;
   name: string;
   placeholder: string;
-  defaultValues?: string[];
+  defaultValues?: ColumnData[];
 }
+
 function SubtasksForm({
   label,
   name,
   placeholder,
-  defaultValues,
+  defaultValues = [],
 }: SubtasksFormProps) {
-  const initialState = () => {
-    if (defaultValues && defaultValues.length > 0) {
-      return defaultValues.map((_, index) => ({ id: index }));
-    }
-    return [{ id: 0 }, { id: 1 }];
-  };
-  const [textInputs, setTextInputs] = useState(initialState);
+  const [textInputs, setTextInputs] = useState<ColumnData[]>(() => {
+    if (defaultValues.length > 0) return defaultValues;
+    return [
+      { id: "initial-0", name: "" },
+      { id: "initial-1", name: "" },
+    ];
+  });
 
-  const nextId = useRef(
-    defaultValues && defaultValues.length > 0 ? defaultValues.length : 2,
-  );
-
+  const newItemsCount = useRef(0);
   const { setErrors } = useFormErrorContext();
 
   const addTextInput = () => {
-    setTextInputs([...textInputs, { id: nextId.current }]);
-    nextId.current += 1;
+    const newId = `new-${newItemsCount.current}`;
+    setTextInputs([...textInputs, { id: newId, name: "" }]);
+    newItemsCount.current += 1;
   };
 
-  const deleteTextInput = (id: number, index: number) => {
-    const newSubtasks = textInputs.filter((textInput) => textInput.id !== id);
+  const deleteTextInput = (id: string | number, index: number) => {
+    const newSubtasks = textInputs.filter((item) => item.id !== id);
     setTextInputs(newSubtasks);
-    setErrors((prev) => {
-      return updateErrorsOnDelete(prev ?? {}, name, index);
-    });
+
+    setErrors((prev) => updateErrorsOnDelete(prev ?? {}, name, index));
   };
 
   return (
@@ -49,20 +53,20 @@ function SubtasksForm({
         <legend className="body-m text-grey-400 mb-2">
           {`${label} (${textInputs.length})`}
         </legend>
-        {textInputs.map((textInput, index) => {
-          return (
-            <SubtaskInput
-              key={textInput.id}
-              label={`${label}(${index + 1})`}
-              id={textInput.id}
-              name={`${name}.${index}`}
-              onDelete={() => deleteTextInput(textInput.id, index)}
-              placeholder={placeholder}
-              defaultValue={defaultValues?.[index] ?? ""}
-            />
-          );
-        })}
+
+        {textInputs.map((item, index) => (
+          <SubtaskInput
+            key={item.id}
+            label={`${label}(${index + 1})`}
+            id={item.id}
+            name={`${name}.${index}`}
+            placeholder={placeholder}
+            defaultValue={item.name}
+            onDelete={() => deleteTextInput(item.id, index)}
+          />
+        ))}
       </fieldset>
+
       <SecondaryButton
         onClick={addTextInput}
         className="-mt-3 hover:cursor-pointer"
