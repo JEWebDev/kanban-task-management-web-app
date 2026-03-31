@@ -8,24 +8,24 @@ import { useBoard, useDeleteBoard } from "@/hooks/useBoards";
 import NavDropodown from "./NavDropdown";
 import { useModalManager } from "@/hooks/useModalManager";
 import ActionMenu from "./ActionMenu";
-import { useState } from "react";
 import ConfirmationModal from "../modals/ConfirmationModal";
+import { useConfirmationModal } from "@/hooks/useConfirmationModal";
 
 interface HeaderProps {
   className?: string;
 }
 
 function Header({ className }: HeaderProps) {
-  const [IsDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { boardId } = useParams();
   const { data: board } = useBoard(boardId as string);
   const { openModal } = useModalManager();
-
+  const { IsDeleteModalOpen, openConfirmationModal, closeConfirmationModal } =
+    useConfirmationModal();
   const { mutate: deleteBoard } = useDeleteBoard();
   const handleDeleteBoard = () => {
     if (boardId) {
       deleteBoard(boardId?.toString());
-      setIsDeleteModalOpen(false);
+      closeConfirmationModal();
     }
   };
   return (
@@ -59,7 +59,10 @@ function Header({ className }: HeaderProps) {
                     + Add New Task
                   </span>
                 </button>
-                <ActionMenu onDeleteClick={() => setIsDeleteModalOpen(true)} />
+                <ActionMenu
+                  onDeleteClick={() => openConfirmationModal()}
+                  onEditClick={() => {}}
+                />
               </>
             )}
           </div>
@@ -70,7 +73,7 @@ function Header({ className }: HeaderProps) {
           title={"Delete this board?"}
           description={`Are you sure you want to delete the '${board?.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
           onConfirm={handleDeleteBoard}
-          onClose={() => setIsDeleteModalOpen(false)}
+          onClose={() => closeConfirmationModal()}
         />
       )}
     </>

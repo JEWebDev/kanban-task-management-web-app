@@ -3,12 +3,18 @@ import { useActionMenu } from "@/hooks/useActionMenu";
 interface ActionMenuProps {
   className?: string;
   onDeleteClick: () => void;
+  onEditClick: () => void;
 }
 
-function ActionMenu({ className, onDeleteClick }: ActionMenuProps) {
+function ActionMenu({
+  className,
+  onDeleteClick,
+  onEditClick,
+}: ActionMenuProps) {
   const { isOpen, menuRef, closeMenu, toggleMenu } = useActionMenu();
   const handleEdit = () => {
     closeMenu();
+    onEditClick();
   };
 
   const handleDelete = () => {
