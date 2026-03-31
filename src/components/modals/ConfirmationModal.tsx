@@ -1,6 +1,5 @@
 import SecondaryButton from "../shared/buttons/SecondaryButton";
 
-// components/modals/ConfirmationModal.tsx
 interface ConfirmationModalProps {
   title: string;
   description: string;
@@ -26,14 +25,14 @@ export default function ConfirmationModal({
           <SecondaryButton
             onClick={onConfirm}
             disabled={isPending ?? false}
-            className="flex-1 bg-red-500 text-white py-2.5 rounded-3xl hover:bg-red-300 disabled:opacity-50 transition-colors"
+            className="flex-1 bg-red-500! text-white"
           >
             {isPending ? "Deleting..." : "Delete"}
           </SecondaryButton>
           <SecondaryButton
             onClick={onClose}
             disabled={isPending ?? false}
-            className="flex-1 bg-purple-100 text-purple-500 py-2.5 rounded-3xl hover:bg-purple-200 transition-colors"
+            className="flex-1"
           >
             Cancel
           </SecondaryButton>

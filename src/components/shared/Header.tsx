@@ -45,23 +45,27 @@ function Header({ className }: HeaderProps) {
           </div>
 
           <div className="flex items-center">
-            <button
-              className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
-              onClick={() => {
-                openModal("create-task");
-              }}
-              disabled={!board?.columns || board.columns.length === 0}
-            >
-              <IconAddTaskMobile className="md:hidden w-3 h-3" />
-              <span className="hidden md:block text-white heading-m">
-                + Add New Task
-              </span>
-            </button>
-            <ActionMenu onDeleteClick={() => setIsDeleteModalOpen(true)} />
+            {boardId && (
+              <>
+                <button
+                  className="px-4.5 py-2.5 md:px-6 md:py-3.75 bg-purple-500 rounded-3xl flex items-center justify-center enabled:hover:cursor-pointer hover:bg-purple-300 disabled:opacity-25 disabled:hover:bg-purple-500 disabled:hover:cursor-not-allowed"
+                  onClick={() => {
+                    openModal("create-task");
+                  }}
+                  disabled={!board?.columns || board.columns.length === 0}
+                >
+                  <IconAddTaskMobile className="md:hidden w-3 h-3" />
+                  <span className="hidden md:block text-white heading-m">
+                    + Add New Task
+                  </span>
+                </button>
+                <ActionMenu onDeleteClick={() => setIsDeleteModalOpen(true)} />
+              </>
+            )}
           </div>
         </div>
       </header>
-      {IsDeleteModalOpen && (
+      {IsDeleteModalOpen && board && (
         <ConfirmationModal
           title={"Delete this board?"}
           description={`Are you sure you want to delete the '${board?.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
