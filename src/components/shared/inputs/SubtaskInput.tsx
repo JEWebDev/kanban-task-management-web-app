@@ -6,6 +6,7 @@ interface SubtaskInputProps {
   id: number;
   name: string;
   placeholder: string;
+  defaultValue?: string;
   ref?: Ref<HTMLInputElement>;
   onDelete: () => void;
 }
@@ -13,6 +14,7 @@ function SubtaskInput({
   label,
   id,
   name,
+  defaultValue,
   placeholder,
   ref,
   onDelete,
@@ -26,6 +28,7 @@ function SubtaskInput({
         placeholder={placeholder}
         ref={ref}
         isLabelSROnly={true}
+        defaultValue={defaultValue}
       />
       <button type="button" onClick={onDelete} className="hover:cursor-pointer">
         <IconCross className="w-3.75 h-3.75" />

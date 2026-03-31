@@ -8,11 +8,28 @@ interface SubtasksFormProps {
   label: string;
   name: string;
   placeholder: string;
+  defaultValues?: string[];
 }
-function SubtasksForm({ label, name, placeholder }: SubtasksFormProps) {
-  const [textInputs, setTextInputs] = useState([{ id: 0 }, { id: 1 }]);
-  const nextId = useRef(2);
+function SubtasksForm({
+  label,
+  name,
+  placeholder,
+  defaultValues,
+}: SubtasksFormProps) {
+  const initialState = () => {
+    if (defaultValues && defaultValues.length > 0) {
+      return defaultValues.map((_, index) => ({ id: index }));
+    }
+    return [{ id: 0 }, { id: 1 }];
+  };
+  const [textInputs, setTextInputs] = useState(initialState);
+
+  const nextId = useRef(
+    defaultValues && defaultValues.length > 0 ? defaultValues.length : 2,
+  );
+
   const { setErrors } = useFormErrorContext();
+
   const addTextInput = () => {
     setTextInputs([...textInputs, { id: nextId.current }]);
     nextId.current += 1;
@@ -25,10 +42,13 @@ function SubtasksForm({ label, name, placeholder }: SubtasksFormProps) {
       return updateErrorsOnDelete(prev ?? {}, name, index);
     });
   };
+
   return (
     <>
       <fieldset className="overflow-y-auto w-full max-h-29.25 flex flex-col gap-3">
-        <legend className="body-m text-grey-400 mb-2">{`${label} (${textInputs.length})`}</legend>
+        <legend className="body-m text-grey-400 mb-2">
+          {`${label} (${textInputs.length})`}
+        </legend>
         {textInputs.map((textInput, index) => {
           return (
             <SubtaskInput
@@ -38,6 +58,7 @@ function SubtasksForm({ label, name, placeholder }: SubtasksFormProps) {
               name={`${name}.${index}`}
               onDelete={() => deleteTextInput(textInput.id, index)}
               placeholder={placeholder}
+              defaultValue={defaultValues?.[index] ?? ""}
             />
           );
         })}
