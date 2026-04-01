@@ -26,12 +26,12 @@ function SubtasksForm({
   const [textInputs, setTextInputs] = useState<ColumnData[]>(() => {
     if (defaultValues.length > 0) return defaultValues;
     return [
-      { id: "initial-0", name: "" },
-      { id: "initial-1", name: "" },
+      { id: "new-0", name: "" },
+      { id: "new-1", name: "" },
     ];
   });
 
-  const newItemsCount = useRef(0);
+  const newItemsCount = useRef(defaultValues.length > 0 ? 0 : 2);
   const { setErrors } = useFormErrorContext();
 
   const addTextInput = () => {
@@ -60,6 +60,7 @@ function SubtasksForm({
             label={`${label}(${index + 1})`}
             id={item.id}
             name={`${name}.${index}`}
+            idFieldName={`${name}Id.${index}`}
             placeholder={placeholder}
             defaultValue={item.name}
             onDelete={() => deleteTextInput(item.id, index)}

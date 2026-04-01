@@ -5,6 +5,7 @@ interface SubtaskInputProps {
   label: string;
   id: string | number;
   name: string;
+  idFieldName: string;
   placeholder: string;
   defaultValue?: string;
   ref?: Ref<HTMLInputElement>;
@@ -14,6 +15,7 @@ function SubtaskInput({
   label,
   id,
   name,
+  idFieldName,
   defaultValue,
   placeholder,
   ref,
@@ -21,6 +23,7 @@ function SubtaskInput({
 }: SubtaskInputProps) {
   return (
     <div className="flex items-center gap-4 w-full">
+      <input type="hidden" name={idFieldName} value={id.toString()} />
       <TextInput
         label={label}
         id={id.toString()}
