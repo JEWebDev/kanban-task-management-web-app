@@ -4,6 +4,7 @@ import {
   deleteBoard,
   getAllBoards,
   getBoardById,
+  updateBoard,
 } from "@/utils/queries/boards";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -34,6 +35,25 @@ export function useCreateBoard() {
       if (newBoard.board_id) {
         router.push(`/${newBoard.board_id}`);
       }
+    },
+  });
+}
+
+export function useUpdateBoard() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: updateBoard,
+    onSuccess: async (updatedBoard: Board) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["boards"] }),
+        queryClient.invalidateQueries({
+          queryKey: ["board", updatedBoard.board_id],
+        }),
+      ]);
+
+      router.push(`/${updatedBoard.board_id}`);
     },
   });
 }

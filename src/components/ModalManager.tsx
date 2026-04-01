@@ -5,6 +5,7 @@ import { FormErrorProvider } from "@/context/FormErrorContext";
 
 const MODAL_COMPONENTS = {
   "create-board": CreateBoardModal,
+  "edit-board": CreateBoardModal,
   "create-task": CreateTaskModal,
 } as const;
 
