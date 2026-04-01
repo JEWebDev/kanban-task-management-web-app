@@ -2,7 +2,6 @@
 import Column from "@/components/shared/Column";
 import TaskCard from "@/components/shared/TaskCard";
 import { useBoard } from "@/hooks/useBoards";
-import { useDialog } from "@/hooks/useDialog";
 import { useModalManager } from "@/hooks/useModalManager";
 
 function BoardLayout({ boardId }: { boardId: string }) {
