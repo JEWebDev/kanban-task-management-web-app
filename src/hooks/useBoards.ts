@@ -1,6 +1,7 @@
 import { Board } from "@/types/data";
 import {
   createBoard,
+  deleteBoard,
   getAllBoards,
   getBoardById,
 } from "@/utils/queries/boards";
@@ -33,6 +34,19 @@ export function useCreateBoard() {
       if (newBoard.board_id) {
         router.push(`/${newBoard.board_id}`);
       }
+    },
+  });
+}
+
+export function useDeleteBoard() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: deleteBoard,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["boards"] });
+      router.push(`/`);
     },
   });
 }
