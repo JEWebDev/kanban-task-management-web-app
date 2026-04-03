@@ -61,9 +61,7 @@ function Header({ className }: HeaderProps) {
                 </button>
                 <ActionMenu
                   onDeleteClick={() => openConfirmationModal()}
-                  onEditClick={() => {
-                    openModal("edit-board");
-                  }}
+                  onEditClick={() => {}}
                 />
               </>
             )}
