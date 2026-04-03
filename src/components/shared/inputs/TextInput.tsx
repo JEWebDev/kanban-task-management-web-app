@@ -9,7 +9,6 @@ interface TextInputProps {
   ref?: Ref<HTMLInputElement>;
   placeholder?: string;
   isLabelSROnly?: boolean;
-  defaultValue?: string;
 }
 function TextInput({
   label,
@@ -19,7 +18,6 @@ function TextInput({
   ref,
   placeholder,
   isLabelSROnly,
-  defaultValue,
 }: TextInputProps) {
   const { errors } = useFormErrorContext();
   const errorMsg = errors?.[name] || errors?.serverError;
@@ -45,7 +43,6 @@ function TextInput({
           aria-label={name}
           placeholder={placeholder}
           value={value}
-          defaultValue={defaultValue}
           ref={ref}
         />
       </div>

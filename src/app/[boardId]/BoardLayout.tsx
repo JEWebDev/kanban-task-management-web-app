@@ -2,11 +2,9 @@
 import Column from "@/components/shared/Column";
 import TaskCard from "@/components/shared/TaskCard";
 import { useBoard } from "@/hooks/useBoards";
-import { useModalManager } from "@/hooks/useModalManager";
 
 function BoardLayout({ boardId }: { boardId: string }) {
   const { data: board } = useBoard(boardId as string);
-  const { openModal } = useModalManager();
   return (
     <>
       {board?.columns?.map((column) => {
@@ -30,12 +28,7 @@ function BoardLayout({ boardId }: { boardId: string }) {
         );
       })}
       {board?.columns && board?.columns?.length > 0 && (
-        <button
-          className="min-w-70 items-center justify-center heading-xl text-grey-400 rounded-md dark:bg-linear-to-b  dark:from-[#2B2C37]/25 dark:to-[#2B2C37]/50 bg-linear-to-b from-[#e9effa] to-[#e9effa]/50 hidden md:flex hover:text-purple-500 hover:cursor-pointer"
-          onClick={() => {
-            openModal("edit-board");
-          }}
-        >
+        <button className="min-w-70 items-center justify-center heading-xl text-grey-400 rounded-md dark:bg-linear-to-b  dark:from-[#2B2C37]/25 dark:to-[#2B2C37]/50 bg-linear-to-b from-[#e9effa] to-[#e9effa]/50 hidden md:flex hover:text-purple-500 hover:cursor-pointer">
           <span className="">+ New Column</span>
         </button>
       )}

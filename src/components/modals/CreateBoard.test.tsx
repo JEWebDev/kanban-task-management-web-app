@@ -1,12 +1,8 @@
 import { render, screen, within, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
-import {
-  ReadonlyURLSearchParams,
-  useParams,
-  useSearchParams,
-} from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import AddNewBoard from "./CreateBoardModal";
-import { useBoard, useCreateBoard, useUpdateBoard } from "@/hooks/useBoards";
+import { useCreateBoard } from "@/hooks/useBoards";
 import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/navigation";
 import { Board } from "@/types/data";
@@ -21,13 +17,10 @@ vi.mock("@/hooks/useDialog", () => ({
 }));
 
 vi.mock("@/hooks/useBoards", () => ({
-  useBoard: vi.fn(),
   useCreateBoard: vi.fn(),
-  useUpdateBoard: vi.fn(),
 }));
 
 vi.mock("next/navigation", () => ({
-  useParams: vi.fn(),
   useRouter: vi.fn(),
   useSearchParams: vi.fn(),
 }));
@@ -35,27 +28,19 @@ vi.mock("next/navigation", () => ({
 describe("AddNewBoard Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    vi.mocked(useParams).mockReturnValue({} as ReturnType<typeof useParams>);
-    vi.mocked(useSearchParams).mockReturnValue(
-      new URLSearchParams(
-        "modal=create-board",
-      ) as unknown as ReadonlyURLSearchParams,
-    );
-    vi.mocked(useBoard).mockReturnValue({
-      data: undefined,
-    } as unknown as ReturnType<typeof useBoard>);
     vi.mocked(useCreateBoard).mockReturnValue({
       mutateAsync: vi.fn(),
       isPending: false,
     } as unknown as ReturnType<typeof useCreateBoard>);
-    vi.mocked(useUpdateBoard).mockReturnValue({
-      mutateAsync: vi.fn(),
-      isPending: false,
-    } as unknown as ReturnType<typeof useUpdateBoard>);
   });
 
   it("renders when modal is active on URL", () => {
+    const mockUseSearchParams = vi.mocked(useSearchParams);
+    const mockSearchParams = new URLSearchParams("modal=create-board");
+    mockUseSearchParams.mockReturnValue(
+      mockSearchParams as unknown as ReadonlyURLSearchParams,
+    );
+
     render(
       <FormErrorProvider>
         <AddNewBoard />
@@ -101,7 +86,7 @@ describe("AddNewBoard Component", () => {
   it("Should disable submit button and show loading text when pending", () => {
     vi.mocked(useCreateBoard).mockReturnValue({
       mutateAsync: vi.fn(),
-      isPending: true,
+      isPending: true, // Simulamos estado de carga
     } as unknown as ReturnType<typeof useCreateBoard>);
     render(
       <FormErrorProvider>
@@ -179,61 +164,8 @@ describe("AddNewBoard Component", () => {
     await user.type(nameInput, "Marketing Plan");
     await user.click(submitButton);
 
-    const error = await screen.findByText(/Board already exists/i);
-    expect(error).toBeInTheDocument();
-  });
-
-  it("Should call updateBoard with the correct data on edit submit", async () => {
-    const user = userEvent.setup({ delay: null });
-    const mockUpdateAsync = vi.fn();
-
-    vi.mocked(useParams).mockReturnValue({
-      boardId: "board-123",
-    } as ReturnType<typeof useParams>);
-    vi.mocked(useSearchParams).mockReturnValue(
-      new URLSearchParams(
-        "modal=edit-board",
-      ) as unknown as ReadonlyURLSearchParams,
-    );
-    vi.mocked(useBoard).mockReturnValue({
-      data: {
-        board_id: "board-123",
-        name: "Platform Roadmap",
-        columns: [
-          { column_id: "col-1", name: "Todo", tasks: [] },
-          { column_id: "col-2", name: "Doing", tasks: [] },
-        ],
-      },
-    } as unknown as ReturnType<typeof useBoard>);
-    vi.mocked(useUpdateBoard).mockReturnValue({
-      mutateAsync: mockUpdateAsync,
-      isPending: false,
-    } as unknown as ReturnType<typeof useUpdateBoard>);
-
-    render(
-      <FormErrorProvider>
-        <AddNewBoard />
-      </FormErrorProvider>,
-    );
-
-    const nameInput = screen.getByDisplayValue("Platform Roadmap");
-    await user.clear(nameInput);
-    await user.type(nameInput, "Platform Delivery");
-
-    const submitButton = screen.getByRole("button", {
-      name: /Save Changes/i,
-      hidden: true,
-    });
-    await user.click(submitButton);
-
-    expect(mockUpdateAsync).toHaveBeenCalledWith({
-      boardId: "board-123",
-      boardName: "Platform Delivery",
-      columns: [
-        { id: "col-1", name: "Todo" },
-        { id: "col-2", name: "Doing" },
-      ],
-    });
+    const errorMsg = await screen.findByText("Board already exists");
+    expect(errorMsg).toBeInTheDocument();
   });
 
   it("Should not call createBoard and show error when name is empty", async () => {
@@ -261,42 +193,5 @@ describe("AddNewBoard Component", () => {
     const errorMessage = await screen.findByText("Can't be empty");
 
     expect(errorMessage).toBeInTheDocument();
-  });
-
-  it("should not call updateBoard and should show error if no changes are made in edit mode", async () => {
-    const user = userEvent.setup({ delay: null });
-    const mockUpdateAsync = vi.fn();
-    vi.mocked(useUpdateBoard).mockReturnValue({
-      mutateAsync: mockUpdateAsync,
-      isPending: false,
-    } as unknown as ReturnType<typeof useUpdateBoard>);
-
-    vi.mocked(useSearchParams).mockReturnValue({
-      get: (key: string) => (key === "modal" ? "edit-board" : null),
-    } as unknown as ReadonlyURLSearchParams);
-
-    vi.mocked(useBoard).mockReturnValue({
-      data: {
-        board_id: "board-123",
-        name: "Platform Roadmap",
-        columns: [{ column_id: "col-1", name: "Todo", tasks: [] }],
-      },
-    } as unknown as ReturnType<typeof useBoard>);
-
-    render(
-      <FormErrorProvider>
-        <AddNewBoard />
-      </FormErrorProvider>,
-    );
-
-    const saveButton = screen.getByRole("button", {
-      name: /Save Changes/i,
-      hidden: true,
-    });
-    await user.click(saveButton);
-
-    expect(mockUpdateAsync).not.toHaveBeenCalled();
-    const errors = await screen.findAllByText(/No changes to save/i);
-    expect(errors.length).toBeGreaterThan(0);
   });
 });

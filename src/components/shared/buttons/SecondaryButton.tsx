@@ -2,7 +2,7 @@ interface SecondaryButtonProps {
   children: React.ReactNode;
   onClick: () => void;
   className?: string;
-  disabled?: boolean;
+  disabled: boolean;
 }
 function SecondaryButton({
   children,
