@@ -50,32 +50,6 @@ export const createBoard = async ({
   return data;
 };
 
-export const updateBoard = async ({
-  boardId,
-  boardName,
-  columns,
-}: {
-  boardId: string;
-  boardName: string;
-  columns: { id: string; name: string }[];
-}) => {
-  const supabase = await createClient();
-
-  if (!boardId) throw new Error("Board Id is required");
-  if (!boardName || boardName.trim() === "")
-    throw new Error("Name is required");
-
-  const { error } = await supabase.rpc("update_board_with_columns", {
-    p_board_id: boardId,
-    p_board_name: boardName,
-    p_columns: columns,
-  });
-
-  if (error) throw new Error(error.message);
-
-  return { board_id: boardId, name: boardName } as Board;
-};
-
 export const deleteBoard = async (boardId: string) => {
   const supabase = await createClient();
   if (!boardId) return;
