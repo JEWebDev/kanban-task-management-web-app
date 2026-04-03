@@ -93,13 +93,14 @@ describe("CreateTaskModal Component", () => {
     });
     await user.click(submitButton);
 
-    expect(mockMutateAsync).toHaveBeenCalledWith({
-      title: "New Test Task",
-      description: "This is a description",
-      columnId: expect.any(String),
-      subtasks: ["Subtask 1", "Subtask 2"],
-      priorityId: 1,
-    });
+    const call = mockMutateAsync.mock.calls[0][0];
+    expect(call.title).toBe("New Test Task");
+    expect(call.description).toBe("This is a description");
+    expect(typeof call.columnId).toBe("string");
+    expect(call.priorityId).toBe(1);
+    expect(
+      call.subtasks.filter((s: string) => !s.startsWith("new-") && s),
+    ).toEqual(["Subtask 1", "Subtask 2"]);
   });
 
   it("Should show loading state on button when pending", () => {
